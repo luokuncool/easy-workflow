@@ -1,4 +1,3 @@
 easy_workflow:
     resource: "@EasyWorkflowBundle/Controller/"
     type:     annotation
-    prefix:   /
