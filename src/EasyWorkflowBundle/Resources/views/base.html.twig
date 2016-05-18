@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>{% block title %}Welcome!{% endblock %}</title>
+{% block stylesheets %}
+    {% stylesheets filter="scssphp" output="bundles/easyworkflow/css/all.css" "bundles/easyworkflow/scss/_bootstrap.scss" %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+{% block javascripts %}
+    {% javascripts filter="?uglifyjs"
+    "bundles/easyworkflow/js/jquery.min.js"
+    "bundles/easyworkflow/js/bootstrap.min.js" %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>

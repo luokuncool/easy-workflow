@@ -17,3 +17,5 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    uglifyjs_bin: 'C:/bin/node_modules/.bin/uglifyjs'
+    uglifycss_bin: 'C:/bin/node_modules/uglifycss/uglifycss'

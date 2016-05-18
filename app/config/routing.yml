@@ -1,3 +1,4 @@
-app:
-    resource: "@AppBundle/Controller/"
+easy_workflow:
+    resource: "@EasyWorkflowBundle/Controller/"
     type:     annotation
+    prefix:   /

@@ -1,12 +1,14 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: 127.0.0.1
+    database_host: localhost
     database_port: null
-    database_name: symfony
+    database_name: easy-workflow
     database_user: root
-    database_password: null
+    database_password: root
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
-    secret: f2040d0a6e7dd6e41bdceb686a058bfa09c44eb1
+    mailer_host: smtp.exmail.qq.com
+    mailer_user: system@luokuncool.com
+    mailer_password: 1g72fsU2y66fW6g8reg9JOf6
+    secret: ThisTokenIsNotSoSecretChangeIt
+    uglifyjs_bin: 'C:/bin/node_modules/.bin/uglifyjs'
+    uglifycss_bin: 'C:/bin/node_modules/uglifycss/uglifycss'

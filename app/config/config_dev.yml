@@ -32,3 +32,10 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+assetic:
+    use_controller: true
+    filters:
+        lessphp:
+            formatter: "lessjs"
+        scssphp:
+            formatter: "Leafo\\ScssPhp\\Formatter\\Expanded"
