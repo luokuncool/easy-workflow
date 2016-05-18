@@ -6,3 +6,7 @@
 !/var/cache/.gitkeep
 /var/sessions/*
 !/var/sessions/.gitkeep
+/app/config/parameters.yml
+/web/bundles
+/web/js
+/web/css
