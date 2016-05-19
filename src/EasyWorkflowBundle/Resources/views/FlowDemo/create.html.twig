@@ -1,10 +1,10 @@
 {% extends "@EasyWorkflow/base.html.twig" %}
 {% block body %}
     <div class="container">
-        <div class="col-md-8">
+        <div class="col-md-6 col-md-offset-3">
             <form>
                 <div class="form-group">
-                    <label for="leaveType">请假类型</label>
+                    <label for="leaveType"><span class="text-danger">*</span> 请假类型</label>
                     <select class="form-control" name="leaveType" id="leaveType">
                         <option value="">--请选择--</option>
                         <option value="1">事假</option>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label for="startTime" class="control-label">开始时间</label>
+                        <label for="startTime" class="control-label"><span class="text-danger">*</span> 开始时间</label>
                         <div class="input-group date form_datetime" data-date="{{ 'now'|date('Y-m-d H:i:00') }}"
                              data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="startTime">
                             <input class="form-control" type="text" name="startTime"
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="endTime" class="control-label">结束时间</label>
+                        <label for="endTime" class="control-label"><span class="text-danger">*</span> 结束时间</label>
                         <div class="input-group date form_datetime" data-date="{{ 'now'|date('Y-m-d H:i:00') }}"
                              data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="endTime">
                             <input class="form-control" type="text" name="endTime"
@@ -35,8 +35,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="nextHandlerName">下一处理人</label>
-                    <input type="text" class="form-control" id="nextHandlerName" placeholder="下一处理人">
+                    <label for="nextHandlerName"><span class="text-danger">*</span> 请假事由</label>
+                    <textarea name="leaveReason" id="leaveReason" cols="30" rows="8" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="nextHandlerName"><span class="text-danger">*</span> 下一处理人</label>
+                    <div class="input-group" data-link-field="nextHandlerName">
+                        <input type="text" class="form-control" id="nextHandlerName" placeholder="下一处理人">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <select class="form-control" name="nextHandler" id="nextHandler" size="10">
@@ -44,7 +51,7 @@
                         <option value="2">cbd</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">提交</button>
+                <button type="submit" class="btn btn-primary btn-lg">提交</button>
             </form>
         </div>
     </div>

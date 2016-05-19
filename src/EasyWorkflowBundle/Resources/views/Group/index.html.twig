@@ -1,0 +1,37 @@
+{% extends "@EasyWorkflow/base.html.twig" %}
+{% block body %}
+    {{ parent() }}
+    <div class="container-fluid">
+        {% for notice in app.session.flashBag.get('notice') %}
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                {{ notice|trans }}
+            </div>
+        {% endfor %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+                <td>
+                    {% if is_granted('ROLE_LOGIN_USER') %}
+                        <a href="..." class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>删除</a>
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

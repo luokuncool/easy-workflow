@@ -12,3 +12,6 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     uglifyjs_bin: 'C:/bin/node_modules/.bin/uglifyjs'
     uglifycss_bin: 'C:/bin/node_modules/uglifycss/uglifycss'
+    roles:
+        ROLE_LOGIN_USER: 登录用户
+        ROLE_GROUP: 群组管理
