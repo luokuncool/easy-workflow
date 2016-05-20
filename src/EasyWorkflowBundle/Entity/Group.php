@@ -25,8 +25,8 @@ class Group
     /**
      * @var string
      *
-     * @ORM\Column(name="group_name", type="string", length=255, unique=true})
-     * @Assert\NotBlank(message="post.blank_content")
+     * @ORM\Column(name="group_name", type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="group.not_blank.group_name")
      */
     private $groupName;
 

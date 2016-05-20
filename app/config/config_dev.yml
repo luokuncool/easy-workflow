@@ -6,6 +6,10 @@ framework:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
         strict_requirements: true
     profiler: { only_exceptions: false }
+    session:
+        handler_id:  session.handler.mongo
+        cookie_lifetime: 2592000 # optional, it is set to 30 days here
+        gc_maxlifetime: 2592000 # optional, it is set to 30 days here
 
 web_profiler:
     toolbar: true

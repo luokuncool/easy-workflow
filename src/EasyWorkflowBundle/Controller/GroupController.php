@@ -5,6 +5,8 @@ namespace EasyWorkflowBundle\Controller;
 use EasyWorkflowBundle\Entity\Group;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,34 +28,45 @@ class GroupController extends Controller
 
     /**
      * @Route("/create", name="group_create")
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        $group = new Group();
-        $group->setGroupName('aaa');
-        $validator = $this->get('validator');
-        /*$errors = $validator->validate($group);
-        dump($errors);
-        if ($errors->count()) {
-            $this->addFlash('error', $errors->get(0)->getMessage());
-        }*/
-
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $group = new Group();
+            $group->setGroupName($request->get('groupName'));
+            $group->setRoles($request->get('roles'));
+            $validator = $this->get('validator');
+            $errors    = $validator->validate($group);
+            if ($errors->count()) {
+                $this->addFlash('error', $errors->get(0)->getMessage());
+            }
+            $this->addFlash('group', $group);
+            return $this->redirectToRoute('group_create');
+        }
+        $group = $this->get('session')->getFlashBag()->get('group');
+        $group && $group = $group[0];
         $roles = $this->getParameter('roles');
-        return $this->render('@EasyWorkflow/Group/create.html.twig', array('roles' => $roles));
+        return $this->render('@EasyWorkflow/Group/create.html.twig', array('roles' => $roles, 'group' => $group));
     }
 
     /**
-     * @Route("edit", name="group_edit")
+     * @Route("/{id}/edit", name="group_edit")
+     * @param $id
+     * @return Response
      */
-    public function editAction()
+    public function editAction($id)
     {
-        return $this->render('@EasyWorkflow/Group/edit.html.twig');
+        $group = $this->getDoctrine()->getRepository('EasyWorkflowBundle:Group')->find($id);
+        return $this->render('@EasyWorkflow/Group/edit.html.twig', array('group' => $group));
     }
 
     /**
      * @author Quentin
      * @since  2016年11月18日
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      * @Route("/delete", name="group_delete")
      */
     public function deleteAction()

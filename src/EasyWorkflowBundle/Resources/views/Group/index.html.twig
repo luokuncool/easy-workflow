@@ -26,8 +26,9 @@
                 <td>the Bird</td>
                 <td>@twitter</td>
                 <td>
+                    <a href="{{ path('group_edit', {id:'333'}) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 编辑</a>
                     {% if is_granted('ROLE_LOGIN_USER') %}
-                        <a href="..." class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>删除</a>
+                        <a href="..." class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 删除</a>
                     {% endif %}
                 </td>
             </tr>

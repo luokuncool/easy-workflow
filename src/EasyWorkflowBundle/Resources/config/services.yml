@@ -4,3 +4,10 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    mongo_client:
+        class: MongoClient
+        # if not using a username and password
+        arguments: ['mongodb://127.0.0.1:27017']
+    session.handler.mongo:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler
+        arguments: ['@mongo_client', '%mongo.session.options%']

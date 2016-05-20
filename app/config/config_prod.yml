@@ -25,3 +25,9 @@ monolog:
             level: debug
         console:
             type:  console
+assetic:
+    filters:
+        lessphp:
+            formatter: "compressed"
+        scssphp:
+            formatter: "Leafo\\ScssPhp\\Formatter\\Compressed"
