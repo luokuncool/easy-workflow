@@ -4,6 +4,7 @@ namespace EasyWorkflowBundle\Controller;
 
 use EasyWorkflowBundle\Controller\Interfaces\FlowInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -21,5 +22,16 @@ class FlowDemoController extends Controller implements FlowInterface
     public function createAction()
     {
         return $this->render('@EasyWorkflow/FlowDemo/create.html.twig');
+    }
+
+    /**
+     * @author Quentin
+     * @since  2016年11月18日
+     * @Template()
+     * @Route("/index")
+     */
+    public function indexAction()
+    {
+        return array();
     }
 }

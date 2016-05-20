@@ -36,7 +36,7 @@ framework:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ "EasyWorkflowBundle" ]
+    bundles:        [ "EasyWorkflowBundle", "AppBundle" ]
     #java: /usr/bin/java
     node: null
     filters:
