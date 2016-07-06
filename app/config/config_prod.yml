@@ -31,3 +31,19 @@ assetic:
             formatter: "compressed"
         scssphp:
             formatter: "Leafo\\ScssPhp\\Formatter\\Compressed"
+
+monolog:
+    handlers:
+        main:
+            type: rotating_file
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            channels: [!event]
+        console:
+            type:   console
+            channels: [!event, !doctrine]
+        doctrine:
+            type: rotating_file
+            path: "%kernel.logs_dir%/doctrine/%kernel.environment%.log"
+            level: debug
+            channels: [doctrine]
