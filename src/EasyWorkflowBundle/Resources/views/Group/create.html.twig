@@ -20,7 +20,7 @@
                     <div class="input-group">
                         {% for role_key,role in roles %}
                             <label class="checkbox-inline">
-                                <input type="checkbox" name="roles[]" value="{{ role_key }}"> {{ role }}
+                                <input type="checkbox" name="roles[{{ role_key }}]" value="{{ role }}"> {{ role }}
                             </label>
                         {% endfor %}
                     </div>
