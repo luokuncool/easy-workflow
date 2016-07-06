@@ -16,6 +16,7 @@ security:
             pattern:    ^/(_profiler|_wdt|css|js|bundles)
             security:   false
         secured_area:
+            http_basic: ~
             # this firewall applies to all URLs
             pattern: ^/
             # but the firewall does not require login on every page

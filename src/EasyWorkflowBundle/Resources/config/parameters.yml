@@ -1,0 +1,9 @@
+# This file is auto-generated during the composer install
+parameters:
+    roles:
+        ROLE_LOGIN_USER: 登录用户
+        ROLE_GROUP: 群组管理
+    mongo.session.options:
+        database: session_db # your MongoDB database name
+        collection: session  # your MongoDB collection name
+    mongodb_host: 127.0.0.1 # your MongoDB server's IP
