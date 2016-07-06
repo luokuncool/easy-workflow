@@ -2,14 +2,15 @@
 
 namespace EasyWorkflowBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Group
  *
- * @ORM\Table(name="group")
- * @ORM\Entity(repositoryClass="EasyWorkflowBundle\Repository\Entity\GroupRepository")
+ * @ORM\Table(name="groups")
+ * @ORM\Entity(repositoryClass="EasyWorkflowBundle\Repository\GroupRepository")
  */
 class Group
 {
@@ -31,9 +32,7 @@ class Group
     private $groupName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="roles", type="text")
+     * @ORM\Column(name="roles", type="json_array")
      */
     private $roles;
 
@@ -45,16 +44,16 @@ class Group
     private $remark;
 
     /**
-     * @var int
+     * @var DateTime
      *
-     * @ORM\Column(name="create_at", type="integer")
+     * @ORM\Column(name="create_at", type="datetime")
      */
     private $createAt;
 
     /**
-     * @var int
+     * @var DateTime
      *
-     * @ORM\Column(name="update_at", type="integer")
+     * @ORM\Column(name="update_at", type="datetime")
      */
     private $updateAt;
 
@@ -109,12 +108,21 @@ class Group
 
     /**
      * Get roles
-     *
-     * @return string
      */
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    public function getRoleNames()
+    {
+        return array_values($this->roles);
+    }
+
+
+    public function getRoleKeys()
+    {
+        return array_keys($this->roles);
     }
 
     /**
@@ -144,11 +152,11 @@ class Group
     /**
      * Set createAt
      *
-     * @param integer $createAt
+     * @param DateTime $createAt
      *
      * @return Group
      */
-    public function setCreateAt($createAt)
+    public function setCreateAt(DateTime $createAt)
     {
         $this->createAt = $createAt;
 
@@ -168,7 +176,7 @@ class Group
     /**
      * Set updateAt
      *
-     * @param integer $updateAt
+     * @param DateTime $updateAt
      *
      * @return Group
      */
@@ -182,7 +190,7 @@ class Group
     /**
      * Get updateAt
      *
-     * @return int
+     * @return DateTime
      */
     public function getUpdateAt()
     {

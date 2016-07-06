@@ -13,25 +13,28 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>群组名称</th>
+                <th>角色</th>
+                <th>创建时间</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>
-                    <a href="{{ path('group_edit', {id:'333'}) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 编辑</a>
-                    {% if is_granted('ROLE_LOGIN_USER') %}
-                        <a href="..." class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 删除</a>
-                    {% endif %}
-                </td>
-            </tr>
+            {% for group in groups %}
+                <tr>
+                    <th scope="row">{{ group.id }}</th>
+                    <td>{{ group.groupName }}</td>
+                    <td>{{ group.roleNames|join(', ') }}</td>
+                    <td>{{ group.createAt|date('Y-m-d') }}</td>
+                    <td>
+                        <a href="{{ path('group_edit', {id:group.id}) }}" class="btn btn-danger btn-xs"><i
+                                    class="glyphicon glyphicon-trash"></i> 编辑</a>
+                        {% if is_granted('ROLE_LOGIN_USER') %}
+                            <a href="{{ path('group_delete', {id : group.id}) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 删除</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
