@@ -27,7 +27,7 @@
                     <td>{{ group.roleNames|join(', ') }}</td>
                     <td>{{ group.createAt|date('Y-m-d') }}</td>
                     <td>
-                        <a href="{{ path('group_edit', {id:group.id}) }}" class="btn btn-danger btn-xs"><i
+                        <a href="{{ path('group_edit', {id:group.id}) }}" class="btn btn-primary btn-xs"><i
                                     class="glyphicon glyphicon-trash"></i> 编辑</a>
                         {% if is_granted('ROLE_LOGIN_USER') %}
                             <a href="{{ path('group_delete', {id : group.id}) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 删除</a>
