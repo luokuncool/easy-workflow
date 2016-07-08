@@ -104,8 +104,7 @@ class GroupController extends Controller
     {
         $em    = $this->getDoctrine()->getManager();
         $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
-        dump($group);
-        //$em->remove($group);
+        $em->remove($group);
         $this->addFlash('notice', 'group.success');
         return $this->redirectToRoute('group_index');
     }
