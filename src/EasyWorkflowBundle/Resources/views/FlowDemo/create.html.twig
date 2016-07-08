@@ -90,6 +90,11 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    {% javascripts filter="?uglifyjs"
+    "bundles/easyworkflow/js/bootstrap-datetimepicker.min.js"
+    "bundles/easyworkflow/js/locales/bootstrap-datetimepicker.zh-CN.js" %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script type="text/javascript">
     $('.form_datetime').datetimepicker({
         language: 'zh-CN',
@@ -103,3 +108,11 @@
     });
     </script>
 {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    "bundles/easyworkflow/css/bootstrap-datetimepicker.min.css" %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+

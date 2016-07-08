@@ -8,14 +8,16 @@
 <!-- Bootstrap Docs -->
 
 <!-- Bootstrap -->
-{% stylesheets filter="scssphp"
-"bundles/easyworkflow/scss/_bootstrap.scss"
-"bundles/easyworkflow/scss/_easy-workflow.scss"
-"assets/css/bootstrap-admin-theme.css"
-"assets/css/bootstrap-admin-theme-small.css"
-"assets/css/bootstrap-admin-theme-change-size.css" %}
-<link rel="stylesheet" href="{{ asset_url }}"/>
-{% endstylesheets %}
+{% block stylesheets %}
+    {% stylesheets filter="scssphp"
+    "bundles/easyworkflow/scss/_bootstrap.scss"
+    "bundles/easyworkflow/scss/_easy-workflow.scss"
+    "assets/css/bootstrap-admin-theme.css"
+    "assets/css/bootstrap-admin-theme-small.css"
+    "assets/css/bootstrap-admin-theme-change-size.css" %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
 
 <!-- Custom styles -->
 <style type="text/css">
@@ -314,12 +316,14 @@
         </div>
     </div>
 </div>
-{% javascripts filter="?uglifyjs"
-"bundles/easyworkflow/js/jquery.min.js"
-"bundles/easyworkflow/js/bootstrap.min.js"
-"assets/js/twitter-bootstrap-hover-dropdown.min.js"
-"assets/js/bootstrap-admin-theme-change-size.js" %}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+{% block javascripts %}
+    {% javascripts filter="?uglifyjs"
+    "bundles/easyworkflow/js/jquery.min.js"
+    "bundles/easyworkflow/js/bootstrap.min.js"
+    "assets/js/twitter-bootstrap-hover-dropdown.min.js"
+    "assets/js/bootstrap-admin-theme-change-size.js" %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
 </body>
 </html>
