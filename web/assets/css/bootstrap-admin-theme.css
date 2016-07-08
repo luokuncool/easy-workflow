@@ -391,6 +391,7 @@ table > tbody > tr > td.actions .btn{
 .navbar-footer{
     background-color: #F8F8F8;
     margin-top: 15px;
+    margin-bottom: 0;
 }
 .navbar-footer footer p{
     margin-bottom: 15px;
