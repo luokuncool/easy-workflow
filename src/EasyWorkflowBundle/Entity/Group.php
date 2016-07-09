@@ -40,7 +40,7 @@ class Group
     /**
      * @var string
      *
-     * @ORM\Column(name="remark", type="string", length=255)
+     * @ORM\Column(name="remark", type="string", length=255, nullable=true)
      */
     private $remark;
 

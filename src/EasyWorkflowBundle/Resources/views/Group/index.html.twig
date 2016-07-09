@@ -1,41 +1,86 @@
 {% extends "@EasyWorkflow/base.html.twig" %}
-{% block body %}
-    {{ parent() }}
-    <div class="container-fluid">
-        {% for notice in app.session.flashBag.get('notice') %}
-            <div class="alert alert-warning alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                {{ notice|trans }}
+{% block content %}
+    <!-- content -->
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>系统设置</h1>
+                </div>
             </div>
-        {% endfor %}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>群组名称</th>
-                <th>角色</th>
-                <th>创建时间</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for group in groups %}
-                <tr>
-                    <th scope="row">{{ group.id }}</th>
-                    <td>{{ group.groupName }}</td>
-                    <td>{{ group.roleNames|join(', ') }}</td>
-                    <td>{{ group.createAt|date('Y-m-d') }}</td>
-                    <td>
-                        <a href="{{ path('group_edit', {id:group.id}) }}" class="btn btn-primary btn-xs"><i
-                                    class="glyphicon glyphicon-trash"></i> 编辑</a>
-                        {% if is_granted('ROLE_LOGIN_USER') %}
-                            <a href="{{ path('group_delete', {id : group.id}) }}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i> 删除</a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% for notice in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        {{ notice|trans }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">群组列表</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>群组名称</th>
+                                        <th>角色</th>
+                                        <th>创建时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for group in groups %}
+                                        <tr>
+                                            <th scope="row">{{ group.id }}</th>
+                                            <td>{{ group.groupName }}</td>
+                                            <td>{{ group.roleNames|join(', ') }}</td>
+                                            <td>{{ group.createAt|date('Y-m-d') }}</td>
+                                            <td>
+                                                <a href="{{ path('group_edit', {id:group.id}) }}"
+                                                   class="btn btn-sm btn-primary"><i
+                                                            class="glyphicon glyphicon-pencil"></i> 编辑</a>
+                                                {% if is_granted('ROLE_LOGIN_USER') %}
+                                                    <a href="{{ path('group_delete', {id : group.id}) }}"
+                                                       class="btn btn-danger btn-sm"><i
+                                                                class="glyphicon glyphicon-trash"></i> 删除</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    </script>
 {% endblock %}

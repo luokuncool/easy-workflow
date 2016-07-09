@@ -1,41 +1,80 @@
 {% extends "@EasyWorkflow/base.html.twig" %}
-{% block body %}
-    {{ parent() }}
-    <div class="container">
-        {% for error in app.session.flashBag.get('error') %}
-            <div class="alert alert-danger alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                {{ error|trans }}
-            </div>
-        {% endfor %}
-        <div class="col-md-6 col-md-offset-3">
-            <form action="{{ path('group_edit', {id : group.id}) }}" method="post">
-                <div class="form-group">
-                    <label for="groupName"><span class="text-danger">*</span> 群组名称</label>
-                    <input type="text" name="groupName" class="form-control" id="groupName" placeholder="群组名称"
-                           value="{% if group %}{{ group.groupName }}{% endif %}" required>
+{% block content %}
+    <!-- content -->
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>系统设置</h1>
                 </div>
-                <div class="form-group">
-                    <label for="roles">角色</label>
-                    <div class="input-group">
-                        {% for role_key,role in roles %}
-                            <label class="checkbox-inline">
-                                {% if role_key in group.roleKeys %}
-                                    <input type="checkbox" name="roles[{{ role_key }}]" value="{{ role }}" checked/> {{ role }}
-                                {% else %}
-                                    <input type="checkbox" name="roles[{{ role_key }}]" value="{{ role }}"/> {{ role }}
-                                {% endif %}
-                            </label>
-                        {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% for error in app.session.flashBag.get('error') %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        {{ error|trans }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">编辑群组</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content text-muted" style="padding: 60px 0;">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <form action="{{ path('group_edit', {id : group.id}) }}" method="post">
+                                    <div class="form-group">
+                                        <label for="groupName"><span class="text-danger">*</span> 群组名称</label>
+                                        <input type="text" name="groupName" class="form-control" id="groupName" placeholder="群组名称"
+                                               value="{% if group %}{{ group.groupName }}{% endif %}" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roles"><span class="text-danger">*</span> 角色</label>
+                                        <div class="input-group">
+                                            {% for role_key,role in roles %}
+                                                <label class="checkbox-inline">
+                                                    {% if role_key in group.roleKeys %}
+                                                        <input type="checkbox" name="roles[{{ role_key }}]" value="{{ role }}" checked/> {{ role }}
+                                                    {% else %}
+                                                        <input type="checkbox" name="roles[{{ role_key }}]" value="{{ role }}"/> {{ role }}
+                                                    {% endif %}
+                                                </label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="remark">备注</label>
+                                        <textarea name="remark" id="remark" cols="30" rows="8" class="form-control">{{ group.remark }}</textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="remark">备注</label>
-                    <textarea name="remark" id="remark" cols="30" rows="8" class="form-control">{{ group.remark }}</textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">提交</button>
-            </form>
+            </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    </script>
 {% endblock %}

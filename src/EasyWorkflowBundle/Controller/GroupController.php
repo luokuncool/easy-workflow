@@ -44,7 +44,7 @@ class GroupController extends Controller
             $group->setCreateAt(new DateTime());
             $group->setUpdateAt(new DateTime());
             $validator = $this->get('validator');
-            $errors    = $validator->validate($group);
+            $errors = $validator->validate($group);
             if ($errors->count()) {
                 $this->addFlash('error', $errors->get(0)->getMessage());
                 $this->addFlash('group', $group);
@@ -70,22 +70,22 @@ class GroupController extends Controller
      */
     public function editAction($id, Request $request)
     {
-        $em    = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
-        dump($group);
         if ($request->isMethod(Request::METHOD_POST)) {
             $group->setGroupName($request->get('groupName'));
             $group->setRoles($request->get('roles'));
             $group->setRemark($request->get('remark'));
             $group->setUpdateAt(new DateTime());
             $validator = $this->get('validator');
-            $errors    = $validator->validate($group);
+            $errors = $validator->validate($group);
             if ($errors->count()) {
                 $this->addFlash('error', $errors->get(0)->getMessage());
                 $this->addFlash('group', $group);
-                return $this->redirectToRoute('group_create');
+            } else {
+                $em->flush();
             }
-            $em->flush();
+            return $this->redirectToRoute('group_edit', array('id' => $id));
         }
         $roles = $this->getParameter('roles');
         return $this->render('@EasyWorkflow/Group/edit.html.twig', array('roles' => $roles, 'group' => $group));
@@ -102,10 +102,11 @@ class GroupController extends Controller
      */
     public function deleteAction($id)
     {
-        $em    = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
         $em->remove($group);
-        $this->addFlash('notice', 'group.success');
+        $em->flush();
+        $this->addFlash('notice', '删除成功');
         return $this->redirectToRoute('group_index');
     }
 }
