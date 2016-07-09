@@ -46,13 +46,16 @@ class GroupController extends Controller
             $validator = $this->get('validator');
             $errors = $validator->validate($group);
             if ($errors->count()) {
-                $this->addFlash('error', $errors->get(0)->getMessage());
+                $this->addFlash('danger', $errors->get(0)->getMessage());
                 $this->addFlash('group', $group);
                 return $this->redirectToRoute('group_create');
+            } else {
+                $em = $this->get('doctrine.orm.entity_manager');
+                $em->persist($group);
+                $em->flush();
+                $this->addFlash('success', '保存成功！');
             }
-            $em = $this->get('doctrine.orm.entity_manager');
-            $em->persist($group);
-            $em->flush();
+            return $this->redirectToRoute('group_index');
         }
         $group = $this->get('session')->getFlashBag()->get('group');
         $group && $group = $group[0];
@@ -80,10 +83,11 @@ class GroupController extends Controller
             $validator = $this->get('validator');
             $errors = $validator->validate($group);
             if ($errors->count()) {
-                $this->addFlash('error', $errors->get(0)->getMessage());
+                $this->addFlash('danger', $errors->get(0)->getMessage());
                 $this->addFlash('group', $group);
             } else {
                 $em->flush();
+                $this->addFlash('success', '保存成功！');
             }
             return $this->redirectToRoute('group_edit', array('id' => $id));
         }
@@ -106,7 +110,7 @@ class GroupController extends Controller
         $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
         $em->remove($group);
         $em->flush();
-        $this->addFlash('notice', '删除成功');
+        $this->addFlash('success', '删除成功');
         return $this->redirectToRoute('group_index');
     }
 }

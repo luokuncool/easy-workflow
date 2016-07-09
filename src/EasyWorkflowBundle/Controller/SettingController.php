@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class SettingController extends Controller
 {
@@ -13,7 +14,7 @@ class SettingController extends Controller
     /**
      * @param Request $request
      * @Route("/setting/password")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function passwordAction(Request $request)
     {
@@ -24,15 +25,15 @@ class SettingController extends Controller
         $activeUser = $this->get('security.token_storage')->getToken()->getUser();
 
         if (!$passwordEncoder->isPasswordValid($activeUser, $request->get('oldPassword'))) {
-            $this->addFlash('error', '旧密码错误！');
+            $this->addFlash('danger', '旧密码错误！');
             return $this->redirectToRoute('easyworkflow_setting_password');
         }
         if ($request->get('password') == '') {
-            $this->addFlash('error', '请输入新密码！');
+            $this->addFlash('danger', '请输入新密码！');
             return $this->redirectToRoute('easyworkflow_setting_password');
         }
         if ($request->get('password') != $request->get('confirm')) {
-            $this->addFlash('error', '两次输入不一致！');
+            $this->addFlash('danger', '两次输入不一致！');
             return $this->redirectToRoute('easyworkflow_setting_password');
         }
 
