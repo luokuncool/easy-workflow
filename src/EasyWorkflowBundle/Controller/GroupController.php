@@ -74,11 +74,13 @@ class GroupController extends Controller
     public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
+        $groups = $this->get('session')->getFlashBag()->get('group');
+        $group = array_pop($groups);
+        $group OR $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
         if ($request->isMethod(Request::METHOD_POST)) {
-            $group->setGroupName($request->get('groupName'));
-            $group->setRoles($request->get('roles'));
-            $group->setRemark($request->get('remark'));
+            $group->setGroupName((string)$request->get('groupName'));
+            $group->setRoles((array)$request->get('roles'));
+            $group->setRemark((string)$request->get('remark'));
             $group->setUpdateAt(new DateTime());
             $validator = $this->get('validator');
             $errors = $validator->validate($group);
