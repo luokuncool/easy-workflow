@@ -10,5 +10,5 @@ parameters:
     mailer_user: system@luokuncool.com
     mailer_password: 1g72fsU2y66fW6g8reg9JOf6
     secret: ThisTokenIsNotSoSecretChangeIt
-    uglifyjs_bin: uglifyjs
-    uglifycss_bin: uglifycss
+    uglifyjs_bin: C:/bin/node_modules/.bin/uglifyjs
+    uglifycss_bin: C:/bin/node_modules/uglifycss/uglifycss
