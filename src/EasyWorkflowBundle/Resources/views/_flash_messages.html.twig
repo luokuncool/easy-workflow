@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-lg-12">
+        {% for messageType in ['notice', 'info', 'danger', 'success'] %}
+            {% for message in app.session.flashBag.get(messageType) %}
+                <div class="alert alert-{{ messageType }} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
