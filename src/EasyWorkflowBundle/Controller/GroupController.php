@@ -46,7 +46,7 @@ class GroupController extends Controller
             $validator = $this->get('validator');
             $errors = $validator->validate($group);
             if ($errors->count()) {
-                $this->addFlash('danger', $errors->get(0)->getMessage());
+                $this->addFlash('danger', $this->get('translator')->trans($errors->get(0)->getMessage()));
                 $this->addFlash('group', $group);
                 return $this->redirectToRoute('group_create');
             } else {
@@ -85,7 +85,7 @@ class GroupController extends Controller
             $validator = $this->get('validator');
             $errors = $validator->validate($group);
             if ($errors->count()) {
-                $this->addFlash('danger', $errors->get(0)->getMessage());
+                $this->addFlash('danger', $this->get('translator')->trans($errors->get(0)->getMessage()));
                 $this->addFlash('group', $group);
             } else {
                 $em->flush();

@@ -7,3 +7,4 @@ parameters:
         database: session_db # your MongoDB database name
         collection: session  # your MongoDB collection name
     mongodb_host: 127.0.0.1 # your MongoDB server's IP
+    mongodb.upload_files: upload_files

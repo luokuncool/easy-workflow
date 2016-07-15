@@ -1,0 +1,59 @@
+{% extends '@EasyWorkflow/base.html.twig' %}
+
+{% block content %}
+    <!-- content -->
+    <div class="col-md-10">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>文件列表</h1>
+            </div>
+        </div>
+    </div>
+    {% include '@EasyWorkflow/_flash_messages.html.twig' %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted bootstrap-admin-box-title">文件列表</div>
+                </div>
+                <div class="bootstrap-admin-panel-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>filename</th>
+                                    <th>mimeType</th>
+                                    <th>chunkSize</th>
+                                    <th>uploadDate</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for file in files %}
+                                    <tr>
+                                        <td>{{ file.file['filename'] }}</td>
+                                        <td>{{ file.file['mimeType'] }}</td>
+                                        <td>{{ file.file['chunkSize'] }}</td>
+                                        <th>{{ file.file['uploadDate'].toDateTime()|date('Y-m-d') }}</th>
+                                        <td>
+                                            {% if is_granted('ROLE_LOGIN_USER') %}
+                                                <a href="{{ path('group_delete', {id : file.file['_id']}) }}"
+                                                   onclick="return confirm('确定要删除该条数据？')"
+                                                   class="btn btn-danger btn-sm"><i
+                                                            class="glyphicon glyphicon-trash"></i> 删除</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
