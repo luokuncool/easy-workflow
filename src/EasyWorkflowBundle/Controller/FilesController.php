@@ -15,6 +15,21 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FilesController extends Controller
 {
+    /**
+     * @return Response
+     * @Route("/")
+     */
+    public function indexAction()
+    {
+        $gridFS = $this->getMongoGridFS();
+        $cursor = $gridFS->find();
+        $files  = array();
+        while ($file = $cursor->getNext()) {
+            $file->file['size'] = number_format($file->file['length'] / (1024 * 1024), 3) . 'M';
+            $files[]            = $file;
+        }
+        return $this->render('@EasyWorkflow/Files/index.html.twig', array('files' => $files));
+    }
 
     /**
      * @param Request $request
@@ -41,22 +56,6 @@ class FilesController extends Controller
     public function uploadViewAction()
     {
         return $this->render('@EasyWorkflow/Files/uploadView.html.twig');
-    }
-
-    /**
-     * @return Response
-     * @Route("/{page}", defaults={"page"=1})
-     */
-    public function indexAction($page)
-    {
-        $gridFS = $this->getMongoGridFS();
-        $cursor = $gridFS->find();
-        $files  = array();
-        while ($file = $cursor->getNext()) {
-            $file->file['size'] = number_format($file->file['length'] / (1024 * 1024), 3) . 'M';
-            $files[]            = $file;
-        }
-        return $this->render('@EasyWorkflow/Files/index.html.twig', array('files' => $files));
     }
 
     /**
@@ -99,8 +98,8 @@ class FilesController extends Controller
      */
     protected function getMongoGridFS()
     {
-        $mongo = $this->get('mongo_client');
-        $files = $mongo->selectDB($this->getParameter('database_name'));
-        return $files->getGridFS();
+        return $this->get('mongo_client')
+            ->selectDB($this->getParameter('database_name'))
+            ->getGridFS();
     }
 }
