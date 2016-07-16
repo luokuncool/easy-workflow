@@ -38,7 +38,7 @@
                         <input class="form-control" type="password" id="password" name="_password" required/>
                     </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-                    <input type="hidden" name="_target_path" value="/group"/>
+                    <input type="hidden" name="_target_path" value="{{ path('easyworkflow_default_index') }}"/>
                     <button type="submit" class="btn btn-primary">登录<i class="glyphicon glyphicon-hand-up"></i></button>
                 </form>
             </div>
