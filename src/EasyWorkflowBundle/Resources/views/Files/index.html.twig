@@ -23,34 +23,38 @@
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>filename</th>
+                                    <th>文件名称</th>
                                     <th>mimeType</th>
-                                    <th>chunkSize</th>
-                                    <th>uploadDate</th>
-                                    <th></th>
+                                    <th>大小</th>
+                                    <th>上传日期</th>
+                                    <th>
+                                        <a href="{{ path('easyworkflow_files_uploadview') }}"
+                                           class="btn btn-primary btn-sm">
+                                            <i class="glyphicon glyphicon-upload"></i> 上传
+                                        </a>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for file in files %}
                                     <tr>
-                                        <td>{{ file.file['filename'] }}</td>
+                                        <td><a href="{{ path('easyworkflow_files_read', {id : file.file['_id']}) }}"
+                                               target="_blank">{{ file.file['filename'] }}</a></td>
                                         <td>{{ file.file['mimeType'] }}</td>
-                                        <td>{{ file.file['chunkSize'] }}</td>
-                                        <th>{{ file.file['uploadDate'].toDateTime()|date('Y-m-d') }}</th>
+                                        <td>{{ file.file['size'] }}</td>
+                                        <th>{{ file.file['uploadDate'].sec|date('Y-m-d') }}</th>
                                         <td>
-                                            {% if is_granted('ROLE_LOGIN_USER') %}
-                                                <a href="{{ path('group_delete', {id : file.file['_id']}) }}"
-                                                   onclick="return confirm('确定要删除该条数据？')"
-                                                   class="btn btn-danger btn-sm"><i
-                                                            class="glyphicon glyphicon-trash"></i> 删除</a>
-                                            {% endif %}
+                                            <a href="{{ path('easyworkflow_files_delete', {id : file.file['_id']}) }}"
+                                               onclick="return confirm('确定要删除该条数据？')"
+                                               class="btn btn-danger btn-sm">
+                                                <i class="glyphicon glyphicon-trash"></i> 删除
+                                            </a>
                                         </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>

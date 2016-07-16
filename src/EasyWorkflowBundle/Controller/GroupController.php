@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use EasyWorkflowBundle\Document\Group as MongoGroup;
 
 /**
  * 群组管理
@@ -19,13 +20,15 @@ use Symfony\Component\HttpFoundation\Response;
 class GroupController extends Controller
 {
     /**
-     * @Route("/", name="group")
-     * @Route("/index", name="group_index")
+     * @Route("/{page}/page", defaults={"page"=1})
      */
-    public function indexAction()
+    public function indexAction($page)
     {
-        $groups = $this->get('doctrine')->getRepository('EasyWorkflowBundle:Group')->findAll();
-        return $this->render('@EasyWorkflow/Group/index.html.twig', ['groups' => $groups]);
+        $em         = $this->get('doctrine.orm.entity_manager');
+        $query      = $em->createQuery("SELECT g FROM EasyWorkflowBundle:Group g ORDER BY g.id ASC");
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($query, $page, 10);
+        return $this->render('@EasyWorkflow/Group/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
@@ -44,7 +47,7 @@ class GroupController extends Controller
             $group->setCreateAt(new DateTime());
             $group->setUpdateAt(new DateTime());
             $validator = $this->get('validator');
-            $errors = $validator->validate($group);
+            $errors    = $validator->validate($group);
             if ($errors->count()) {
                 $this->addFlash('danger', $this->get('translator')->trans($errors->get(0)->getMessage()));
                 $this->addFlash('group', $group);
@@ -55,7 +58,7 @@ class GroupController extends Controller
                 $em->flush();
                 $this->addFlash('success', '保存成功！');
             }
-            return $this->redirectToRoute('group_index');
+            return $this->redirectToRoute('easyworkflow_group_index');
         }
         $group = $this->get('session')->getFlashBag()->get('group');
         $group && $group = $group[0];
@@ -73,9 +76,9 @@ class GroupController extends Controller
      */
     public function editAction($id, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em     = $this->getDoctrine()->getManager();
         $groups = $this->get('session')->getFlashBag()->get('group');
-        $group = array_pop($groups);
+        $group  = array_pop($groups);
         $group OR $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
         if ($request->isMethod(Request::METHOD_POST)) {
             $group->setGroupName((string)$request->get('groupName'));
@@ -83,7 +86,7 @@ class GroupController extends Controller
             $group->setRemark((string)$request->get('remark'));
             $group->setUpdateAt(new DateTime());
             $validator = $this->get('validator');
-            $errors = $validator->validate($group);
+            $errors    = $validator->validate($group);
             if ($errors->count()) {
                 $this->addFlash('danger', $this->get('translator')->trans($errors->get(0)->getMessage()));
                 $this->addFlash('group', $group);
@@ -108,11 +111,15 @@ class GroupController extends Controller
      */
     public function deleteAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em    = $this->getDoctrine()->getManager();
         $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
-        $em->remove($group);
-        $em->flush();
-        $this->addFlash('success', '删除成功');
-        return $this->redirectToRoute('group_index');
+        if ($group) {
+            $em->remove($group);
+            $em->flush();
+            $this->addFlash('success', '删除成功');
+        } else {
+            $this->addFlash('warning', '数据不存在！');
+        }
+        return $this->redirectToRoute('easyworkflow_group_index');
     }
 }

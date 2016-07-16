@@ -19,6 +19,7 @@ class FilesController extends Controller
     /**
      * @param Request $request
      * @Route("/upload2mongo", methods={"POST"})
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function upload2mongoAction(Request $request)
@@ -31,7 +32,7 @@ class FilesController extends Controller
             $row->getFilename();
         }
         $this->addFlash('success', '文件上传成功');
-        return $this->redirectToRoute('easyworkflow_files_uploadview');
+        return $this->redirectToRoute('easyworkflow_files_index');
     }
 
     /**
@@ -44,15 +45,16 @@ class FilesController extends Controller
 
     /**
      * @return Response
-     * @Route("/")
+     * @Route("/{page}", defaults={"page"=1})
      */
-    public function indexAction()
+    public function indexAction($page)
     {
         $gridFS = $this->getMongoGridFS();
         $cursor = $gridFS->find();
         $files  = array();
         while ($file = $cursor->getNext()) {
-            $files[] = $file;
+            $file->file['size'] = number_format($file->file['length'] / (1024 * 1024), 3) . 'M';
+            $files[]            = $file;
         }
         return $this->render('@EasyWorkflow/Files/index.html.twig', array('files' => $files));
     }
@@ -60,6 +62,7 @@ class FilesController extends Controller
     /**
      * @param $id
      * @Route("/{id}/read")
+     *
      * @return Response
      */
     public function readAction($id)
@@ -69,7 +72,26 @@ class FilesController extends Controller
         $response = new Response($file->getBytes());
         $response->headers->set('Content-Type', $file->file['mimeType']);
         $response->headers->set('Content-Disposition', "filename={$file->getFilename()}");
+        $secondsToCache = 3600;
+        $ts             = gmdate("D, d M Y H:i:s", time() + $secondsToCache) . " GMT";
+        $response->headers->set('Expires', $ts);
+        $response->headers->set('Cache-Control', "max-age=$secondsToCache");
+        $response->headers->set('Pragma', 'cache');
         return $response;
+    }
+
+    /**
+     * @param $id
+     * @Route("/{id}/delete")
+     *
+     * @return Response
+     */
+    public function delete($id)
+    {
+        $grid = $this->getMongoGridFS();
+        $grid->remove(array('_id' => new MongoId($id)));
+        $this->addFlash('success', '删除成功');
+        return $this->redirectToRoute('easyworkflow_files_index');
     }
 
     /**
@@ -78,7 +100,7 @@ class FilesController extends Controller
     protected function getMongoGridFS()
     {
         $mongo = $this->get('mongo_client');
-        $files = $mongo->selectDB($this->getParameter('mongodb.upload_files'));
+        $files = $mongo->selectDB($this->getParameter('database_name'));
         return $files->getGridFS();
     }
 }

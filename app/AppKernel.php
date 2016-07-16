@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new EasyWorkflowBundle\EasyWorkflowBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
