@@ -27,7 +27,7 @@ class GroupController extends Controller
         $em         = $this->get('doctrine.orm.entity_manager');
         $query      = $em->createQuery("SELECT g FROM EasyWorkflowBundle:Group g ORDER BY g.id ASC");
         $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $page, 10);
+        $pagination = $paginator->paginate($query, $page, $this->getParameter('page.max_items'));
         return $this->render('@EasyWorkflow/Group/index.html.twig', ['pagination' => $pagination]);
     }
 

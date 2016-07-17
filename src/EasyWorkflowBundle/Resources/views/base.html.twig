@@ -95,7 +95,8 @@
                 </li>
 
                 <li {% if path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) == path('easyworkflow_group_index') %}class="active"{% endif %}>
-                    <a href="{{ path('easyworkflow_group_index') }}"><i class="glyphicon glyphicon-chevron-down"></i> 群组管理</a>
+                    <a href="{{ path('easyworkflow_group_index') }}"><i class="glyphicon glyphicon-chevron-down"></i>
+                        群组管理</a>
                     <ul class="nav navbar-collapse bootstrap-admin-navbar-side">
                         <li {% if path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) == path('group_create') %}class="active"{% endif %}>
                             <a href="{{ path('group_create') }}"><i class="glyphicon glyphicon-chevron-right"></i> 新增群组</a>
@@ -369,6 +370,8 @@
     "assets/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"
     "bundles/easyworkflow/js/bootstrap-datetimepicker.min.js"
     "assets/vendors/jGrowl/jquery.jgrowl.js"
+    "assets/js/inline-attachment.js"
+    "assets/js/jquery.inline-attachment.js"
     "bundles/easyworkflow/js/easy-workflow.js" %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

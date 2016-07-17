@@ -3,8 +3,13 @@
 namespace EasyWorkflowBundle\Controller;
 
 use MongoId;
+use Pagerfanta\Adapter\MongoAdapter;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\View\TwitterBootstrap3View;
+use Pagerfanta\View\TwitterBootstrapView;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,18 +22,38 @@ class FilesController extends Controller
 {
     /**
      * @return Response
-     * @Route("/")
+     * @Route("/{page}/index", defaults={"page"=1})
      */
-    public function indexAction()
+    public function indexAction($page)
     {
-        $gridFS = $this->getMongoGridFS();
-        $cursor = $gridFS->find();
-        $files  = array();
-        while ($file = $cursor->getNext()) {
+        $gridFS     = $this->getMongoGridFS();
+        $cursor     = $gridFS->find()->sort(array('uploadDate' => -1));
+        $adapter    = new MongoAdapter($cursor);
+        $pagerfanta = new Pagerfanta($adapter);
+
+        $pagerfanta->setMaxPerPage($this->getParameter('page.max_items'));
+        $pagerfanta->setCurrentPage($page);
+
+
+        $files   = array();
+        $results = $pagerfanta->getCurrentPageResults();
+        while ($file = $results->getNext()) {
             $file->file['size'] = number_format($file->file['length'] / (1024 * 1024), 3) . 'M';
             $files[]            = $file;
         }
-        return $this->render('@EasyWorkflow/Files/index.html.twig', array('files' => $files));
+
+        if ($files) {
+            $view     = new TwitterBootstrap3View();
+            $options  = array('proximity' => 2, 'prev_message' => '&laquo;&nbsp;上一页', 'next_message' => '下一页&nbsp;&raquo;');
+            $pageView = $view->render($pagerfanta, function ($page) {
+                return $this->generateUrl('easyworkflow_files_index', array('page' => $page));
+            }, $options);
+        } else {
+            $pageView = '';
+        }
+
+
+        return $this->render('@EasyWorkflow/Files/index.html.twig', array('files' => $files, 'pageView' => $pageView));
     }
 
     /**
@@ -41,13 +66,22 @@ class FilesController extends Controller
     {
         $grid = $this->getMongoGridFS();
         /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
-        foreach ($request->files as $name => $file) {
+        /*foreach ($request->files as $name => $file) {
             $id  = $grid->storeUpload($name, array('mimeType' => $file->getMimeType()));
             $row = $grid->findOne(array('_id' => $id));
             $row->getFilename();
+        }*/
+        $uploadName = 'file';
+
+        $id  = $grid->storeUpload($uploadName, array('mimeType' => $request->files->get($uploadName)->getMimeType()));
+        $row = $grid->findOne(array('_id' => $id));
+
+        if ($request->get('isPasteUpload')) {
+            return new JsonResponse(array('filename' => $row->getFilename(), 'row' => $row));
+        } else {
+            $this->addFlash('success', '文件上传成功');
+            return $this->redirectToRoute('easyworkflow_files_index');
         }
-        $this->addFlash('success', '文件上传成功');
-        return $this->redirectToRoute('easyworkflow_files_index');
     }
 
     /**

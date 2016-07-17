@@ -7,3 +7,4 @@ parameters:
         database: "%database_name%" # your MongoDB database name
         collection: session  # your MongoDB collection name
     mongodb_host: 127.0.0.1 # your MongoDB server's IP
+    page.max_items: 10

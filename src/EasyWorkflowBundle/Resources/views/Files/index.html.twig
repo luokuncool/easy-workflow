@@ -42,7 +42,7 @@
                                                target="_blank">{{ file.file['filename'] }}</a></td>
                                         <td>{{ file.file['mimeType'] }}</td>
                                         <td>{{ file.file['size'] }}</td>
-                                        <th>{{ file.file['uploadDate'].sec|date('Y-m-d') }}</th>
+                                        <th>{{ file.file['uploadDate'].sec|date('Y-m-d H:i:s') }}</th>
                                         <td>
                                             <a href="{{ path('easyworkflow_files_delete', {id : file.file['_id']}) }}"
                                                onclick="return confirm('确定要删除该条数据？')"
@@ -55,6 +55,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="col-lg-12">{{ pageView|raw }}</div>
                     </div>
                 </div>
             </div>
