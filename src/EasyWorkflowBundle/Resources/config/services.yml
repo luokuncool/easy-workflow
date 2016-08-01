@@ -11,3 +11,8 @@ services:
     session.handler.mongo:
         class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler
         arguments: ['@mongo_client', '%mongo.session.options%']
+    easy_workflow.twig_extension:
+        class: EasyWorkflowBundle\Twig\EasyWorkflowExtension
+        public: false
+        tags:
+            - { name: twig.extension }

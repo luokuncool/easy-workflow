@@ -167,7 +167,7 @@ class Group
     /**
      * Get createAt
      *
-     * @return int
+     * @return DateTime
      */
     public function getCreateAt()
     {

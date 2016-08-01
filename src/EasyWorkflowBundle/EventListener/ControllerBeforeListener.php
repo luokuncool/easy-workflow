@@ -26,10 +26,10 @@ class ControllerBeforeListener
             return;
         }
 
-        if ($token = $this->container->get('security.token_storage')->getToken()) {
+        /*if ($token = $this->container->get('security.token_storage')->getToken()) {
             $activeUser = $token->getUser();
             $this->container->get('twig')->addGlobal('activeUser', $activeUser);
-        }
+        }*/
 
         if ($controller[0] instanceof FlowInterface) {
 
