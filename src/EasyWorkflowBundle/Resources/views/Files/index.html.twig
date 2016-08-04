@@ -45,7 +45,7 @@
                                         <th>{{ file.file['uploadDate'].sec|date('Y-m-d H:i:s') }}</th>
                                         <td>
                                             <a href="{{ path('easyworkflow_files_delete', {id : file.file['_id']}) }}"
-                                               onclick="return confirm('确定要删除该条数据？')"
+                                               data-toggle="confirmation" data-title="确定要删除该条数据？"
                                                class="btn btn-danger btn-sm">
                                                 <i class="glyphicon glyphicon-trash"></i> 删除
                                             </a>

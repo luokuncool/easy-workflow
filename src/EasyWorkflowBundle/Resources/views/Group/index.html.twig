@@ -42,7 +42,7 @@
                                                             class="glyphicon glyphicon-pencil"></i> 编辑</a>
                                                 {% if is_granted('ROLE_LOGIN_USER') %}
                                                     <a href="{{ path('group_delete', {id : group.id}) }}"
-                                                       onclick="return confirm('确定要删除该条数据？')"
+                                                       data-toggle="confirmation" data-title="确定要删除该条数据？"
                                                        class="btn btn-danger btn-sm"><i
                                                                 class="glyphicon glyphicon-trash"></i> 删除</a>
                                                 {% endif %}
@@ -63,19 +63,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        language: 'zh-CN',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-    });
-    </script>
 {% endblock %}
