@@ -35,9 +35,9 @@ framework:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ "EasyWorkflowBundle", "AppBundle" ]
+    bundles:        [ "EasyWorkflowBundle" ]
     #java: /usr/bin/java
-    node: null
+    node: "%node_bin%"
     filters:
         cssrewrite: ~
         uglifyjs:

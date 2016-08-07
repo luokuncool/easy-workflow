@@ -15,10 +15,9 @@ class UserController extends Controller
 {
     /**
      * @Route("/create")
-     * @Template()
      */
     public function createAction()
     {
-        return array();
+        return $this->render('@EasyWorkflow/User/create.html.twig', ['user' => array(), 'group' => array()]);
     }
 }
