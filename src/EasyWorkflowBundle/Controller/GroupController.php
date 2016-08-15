@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use EasyWorkflowBundle\Document\Group as MongoGroup;
 
 /**
  * 群组管理
@@ -58,7 +57,7 @@ class GroupController extends Controller
                 $em->flush();
                 $this->addFlash('success', '保存成功！');
             }
-            return $this->redirectToRoute('easyworkflow_group_index');
+            return $this->redirectToRoute('group_edit', array('id' => $group->getId()));
         }
         $group = $this->get('session')->getFlashBag()->get('group');
         $group && $group = $group[0];
