@@ -108,6 +108,9 @@
         forceParse: 0,
         showMeridian: 1
     });
+    $.get('{{ path('easyworkflow_flowdemo_getnexthandler') }}', function(res) {
+        console('log');
+    })
     </script>
 {% endblock %}
 {% block stylesheets %}
