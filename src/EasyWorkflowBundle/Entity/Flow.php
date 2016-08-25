@@ -24,9 +24,9 @@ class Flow
     /**
      * @var string
      *
-     * @ORM\Column(name="flow_name", type="string", length=255)
+     * @ORM\Column(name="flow_code", type="string", length=255)
      */
-    private $flowName;
+    private $flowCode;
 
     /**
      * @var int
@@ -142,13 +142,13 @@ class Flow
     /**
      * Set flowName
      *
-     * @param string $flowName
+     * @param string $flowCode
      *
      * @return Flow
      */
-    public function setFlowName($flowName)
+    public function setFlowCode($flowCode)
     {
-        $this->flowName = $flowName;
+        $this->flowCode = $flowCode;
 
         return $this;
     }
@@ -158,9 +158,9 @@ class Flow
      *
      * @return string
      */
-    public function getFlowName()
+    public function getFlowCode()
     {
-        return $this->flowName;
+        return $this->flowCode;
     }
 
     /**

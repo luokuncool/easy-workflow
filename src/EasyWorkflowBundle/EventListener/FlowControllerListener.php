@@ -56,13 +56,15 @@ class FlowControllerListener
     private function nextHandlerFilter(FilterControllerEvent $event, FlowInterface $controller)
     {
         if (preg_match('#::getNextHandler$#', $event->getRequest()->get('_controller'))) {
-            $event->setController(function () use ($controller, $event) {
-                $nextHandlers = $controller->getNextHandler($event->getRequest());
-                $content      = $this->container
-                    ->get('twig')
-                    ->render('@EasyWorkflow/_next_handlers.html.twig', $nextHandlers);
-                return new Response($content);
-            });
+            $event->setController(
+                function () use ($controller, $event) {
+                    $nextHandlers = $controller->getNextHandler($event->getRequest());
+                    $content      = $this->container
+                        ->get('twig')
+                        ->render('@EasyWorkflow/_next_handlers.html.twig', $nextHandlers);
+                    return new Response($content);
+                }
+            );
         }
     }
 }

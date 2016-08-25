@@ -1,0 +1,64 @@
+{% extends "@EasyWorkflow/base.html.twig" %}
+{% block content %}
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>系统设置</h1>
+                </div>
+            </div>
+        </div>
+        {% include '@EasyWorkflow/_flash_messages.html.twig' %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">{{ flow.name }}</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>节点名称</th>
+                                        <th>路由</th>
+                                        <th>创建时间</th>
+                                        <th>
+                                            <a href="{{ path('easyworkflow_flowsetting_createnode', {flowCode:flow.code}) }}"
+                                               class="btn btn-primary btn-sm">
+                                                <i class="glyphicon glyphicon-upload"></i> 新增
+                                            </a>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for flowNode in flowNodes %}
+                                        <tr>
+                                            <th scope="row">{{ flowNode.id }}</th>
+                                            <td>{{ flowNode.name }}</td>
+                                            <td>{{ flowNode.route }}</td>
+                                            <td>{{ flowNode.createAt|date('Y-m-d') }}</td>
+                                            <td>
+                                                <a href="{{ path('easyworkflow_flowsetting_editnode', {id:flowNode.id}) }}"
+                                                   class="btn btn-sm btn-primary"><i
+                                                            class="glyphicon glyphicon-pencil"></i> 编辑</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="clearfix">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

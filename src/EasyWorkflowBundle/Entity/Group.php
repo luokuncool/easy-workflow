@@ -32,7 +32,7 @@ class Group
     private $groupName;
 
     /**
-     * @ORM\Column(name="roles", type="json_array")
+     * @ORM\Column(name="roles", type="array")
      * @Assert\NotBlank(message="群组角色不能为空")
      */
     private $roles;
