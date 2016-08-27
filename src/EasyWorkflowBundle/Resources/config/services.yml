@@ -1,9 +1,10 @@
 services:
-    easy_workflow.flow_listenr:
-        class: EasyWorkflowBundle\EventListener\ControllerBeforeListener
+    easy_workflow.flow_controller_listenr:
+        class: EasyWorkflowBundle\EventListener\FlowControllerListener
         arguments: ['@service_container']
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     mongo_client:
         class: MongoClient
         # if not using a username and password
@@ -11,8 +12,16 @@ services:
     session.handler.mongo:
         class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler
         arguments: ['@mongo_client', '%mongo.session.options%']
+    session.handler.pdo:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        public: false
+        arguments:
+            - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
+            - { db_username: '%database_user%', db_password: '%database_password%' }
     easy_workflow.twig_extension:
         class: EasyWorkflowBundle\Twig\EasyWorkflowExtension
         public: false
         tags:
             - { name: twig.extension }
+    easy_workflow.flow_demo_controller:
+        class: EasyWorkflowBundle\Controller\FlowDemoController
