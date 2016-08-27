@@ -18,6 +18,16 @@ use Symfony\Component\HttpFoundation\Request;
 class FlowSettingController extends Controller
 {
     /**
+     * @return array
+     * @Route("/index")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $flows = $this->getFlows();
+        return array('flows' => $flows);
+    }
+    /**
      * @author luokuncool
      * @since  2016年08月25日
      *
@@ -125,7 +135,6 @@ class FlowSettingController extends Controller
         $flows = array();
         foreach ($routes as $route => $params) {
             $defaults = $params->getDefaults();
-            dump($defaults);
             if (isset($defaults['_controller'])) {
                 $action     = explode(':', $defaults['_controller']);
                 $controller = $action[0];

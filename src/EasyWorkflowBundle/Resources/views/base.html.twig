@@ -139,6 +139,10 @@
                     <a href="{{ path('easyworkflow_files_index') }}"><i class="glyphicon glyphicon-chevron-right"></i>
                         文件管理</a>
                 </li>
+                <li {% if path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) in [path('easyworkflow_flowsetting_index')] %}class="active"{% endif %}>
+                    <a href="{{ path('easyworkflow_flowsetting_index') }}"><i
+                                class="glyphicon glyphicon-chevron-right"></i> 流程配置</a>
+                </li>
             </ul>
         </div>
         <!-- content -->

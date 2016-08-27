@@ -6,6 +6,10 @@
                 <div class="page-header">
                     <h1>系统设置</h1>
                 </div>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('easyworkflow_flowsetting_index') }}">流程配置</a></li>
+                    <li class="active">{{ flow.name }}</li>
+                </ol>
             </div>
         </div>
         {% include '@EasyWorkflow/_flash_messages.html.twig' %}
@@ -15,6 +19,7 @@
                     <div class="panel-heading">
                         <div class="text-muted bootstrap-admin-box-title">{{ flow.name }}</div>
                     </div>
+
                     <div class="bootstrap-admin-panel-content">
                         <div class="row">
                             <div class="col-lg-12">

@@ -1,0 +1,52 @@
+{% extends '@EasyWorkflow/base.html.twig' %}
+
+{% block content %}
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>系统设置</h1>
+                </div>
+            </div>
+        </div>
+        {% include '@EasyWorkflow/_flash_messages.html.twig' %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">修改节点</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content text-muted" style="padding: 30px 10px; min-height: 400px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>流程编码</th>
+                                        <th>流程名称</th>
+                                        <th>节点配置</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for flow in flows %}
+                                        <tr>
+                                            <td>{{ flow.code }}</td>
+                                            <td>{{ flow.name }}</td>
+                                            <td>
+                                                <a href="{{ path('easyworkflow_flowsetting_flow', {flowCode:flow.code}) }}"
+                                                   class="btn btn-sm btn-primary"><i
+                                                            class="glyphicon glyphicon-pencil"></i> 节点配置</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

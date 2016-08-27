@@ -7,6 +7,11 @@
                 <div class="page-header">
                     <h1>系统设置</h1>
                 </div>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('easyworkflow_flowsetting_index') }}">流程配置</a></li>
+                    <li><a href="{{ path('easyworkflow_flowsetting_flow', {flowCode:flow.code}) }}">{{ flow.name }}</a></li>
+                    <li class="active">修改节点</li>
+                </ol>
             </div>
         </div>
         {% include '@EasyWorkflow/_flash_messages.html.twig' %}
@@ -58,7 +63,7 @@
                                     <div class="form-group">
                                         <label for="description">备注</label>
                                         <textarea name="description" id="description" cols="30" rows="8"
-                                                  class="form-control"></textarea>
+                                                  class="form-control">{{ flowNode.description }}</textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-sm"><i
                                                 class="glyphicon glyphicon-hand-up"></i> 确定提交
