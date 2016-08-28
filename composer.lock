@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6e074ec41adaa0880915d89fc3e26e1f",
-    "content-hash": "9e9793635c118e0e3296617d6a80f8d7",
+    "hash": "12d73d4df0a3fef37811687e32eab6c6",
+    "content-hash": "545dcbb2dd03f46047d7f550ec85fce5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1813,42 +1813,6 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
-        },
-        {
-            "name": "rock/phpwsdl",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/RockPhp/PhpWsdl.git",
-                "reference": "42bf7a01324a1461c3718e16afbc1dc4f5eceb19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/RockPhp/PhpWsdl/zipball/42bf7a01324a1461c3718e16afbc1dc4f5eceb19",
-                "reference": "42bf7a01324a1461c3718e16afbc1dc4f5eceb19",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.1.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andre Nils",
-                    "email": "nilzao@gmail.com"
-                }
-            ],
-            "description": "PhpWsdl for php 5.1.6",
-            "time": "2014-12-23 17:43:57"
         },
         {
             "name": "sensio/distribution-bundle",
