@@ -47,6 +47,13 @@ class FlowNode
      */
     private $route;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EasyWorkflowBundle\Entity\Group")
+     * @ORM\JoinTable(name="flow_nodes_groups", joinColumns={@ORM\JoinColumn(name="flow_node_id", referencedColumnName="id")}, inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", unique=true)})
+     */
+    private $groups;
+
     /**
      * @var string
      *
@@ -68,6 +75,10 @@ class FlowNode
      */
     private $updateAt;
 
+    public function __construct()
+    {
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id

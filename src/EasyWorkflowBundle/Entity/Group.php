@@ -3,7 +3,9 @@
 namespace EasyWorkflowBundle\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -57,6 +59,15 @@ class Group
      * @ORM\Column(name="update_at", type="datetime")
      */
     private $updateAt;
+
+    /**
+     * @ManyToMany(targetEntity="User", mappedBy="groups")
+     */
+    private $users;
+
+    public function __construct() {
+        $this->users = new ArrayCollection();
+    }
 
 
     /**
@@ -196,6 +207,22 @@ class Group
     public function getUpdateAt()
     {
         return $this->updateAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param mixed $users
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
     }
 }
 
