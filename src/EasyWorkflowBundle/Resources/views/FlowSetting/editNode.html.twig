@@ -43,22 +43,13 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>路由</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for route in flow.routes %}
-                                                <tr>
-                                                    <th scope="row">#</th>
-                                                    <td>{{ route }}</td>
-                                                </tr>
+                                        <label for="route"><span class="text-danger">*</span> 处理群组</label>
+                                        <select class="form-control" name="groups[]" id="groups" size="10" multiple>
+                                            {% for group in groups %}
+                                                <option value="{{ group.id }}"
+                                                        {% if flowNode and group in flowNode.groups %}selected{% endif %}>{{ group.groupName }}</option>
                                             {% endfor %}
-                                            </tbody>
-                                        </table>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">备注</label>

@@ -27,6 +27,7 @@ class FlowSettingController extends Controller
         $flows = $this->getFlows();
         return array('flows' => $flows);
     }
+
     /**
      * @author luokuncool
      * @since  2016年08月25日
@@ -107,6 +108,11 @@ class FlowSettingController extends Controller
             $flowNode->setName($request->get('name'));
             $flowNode->setDescription($request->get('description'));
             $flowNode->setUpdateAt(new DateTime());
+            $groups = $this->getDoctrine()
+                ->getRepository('EasyWorkflowBundle:Group')
+                ->findByIds((array)$request->get('groups'));
+            $flowNode->getGroups()->clear();
+            $flowNode->addGroup($groups);
             $validator = $this->get('validator');
             $errors    = $validator->validate($flowNode);
             if ($errors->count()) {
@@ -122,9 +128,10 @@ class FlowSettingController extends Controller
             $flowNode = $flushFlowNode[0];
         }
 
+        $groups   = $this->getDoctrine()->getRepository('EasyWorkflowBundle:Group')->findAll();
         $flowCode = $flowNode->getFlowCode();
-        $flow = $this->getFlows($flowCode);
-        return array('flowNode' => $flowNode, 'flowCode' => $flowCode, 'flow' => $flow);
+        $flow     = $this->getFlows($flowCode);
+        return array('flowNode' => $flowNode, 'flowCode' => $flowCode, 'flow' => $flow, 'groups' => $groups);
     }
 
     private function getFlows($flowCode = '')

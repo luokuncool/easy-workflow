@@ -2,7 +2,9 @@
 
 namespace EasyWorkflowBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,7 +52,11 @@ class FlowNode
 
     /**
      * @ORM\ManyToMany(targetEntity="EasyWorkflowBundle\Entity\Group")
-     * @ORM\JoinTable(name="flow_nodes_groups", joinColumns={@ORM\JoinColumn(name="flow_node_id", referencedColumnName="id")}, inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", unique=true)})
+     * @JoinTable(
+     *   name="flow_nodes_groups",
+     *   joinColumns={@ORM\JoinColumn(name="flow_node_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
      */
     private $groups;
 
@@ -77,7 +83,7 @@ class FlowNode
 
     public function __construct()
     {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
     /**
@@ -224,6 +230,21 @@ class FlowNode
     public function setFlowCode($flowCode)
     {
         $this->flowCode = $flowCode;
+    }
+
+    public function addGroup($groups)
+    {
+        if ($groups instanceof Group) {
+            $groups = [$groups];
+        }
+        foreach ($groups as $group) {
+            $this->groups->add($group);
+        }
+    }
+
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }
 
