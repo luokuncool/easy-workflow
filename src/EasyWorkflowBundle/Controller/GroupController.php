@@ -79,6 +79,7 @@ class GroupController extends Controller
         $groups = $this->get('session')->getFlashBag()->get('group');
         $group  = array_pop($groups);
         $group OR $group = $em->getRepository('EasyWorkflowBundle:Group')->find($id);
+        dump($group->getUsers()->toArray());
         if ($request->isMethod(Request::METHOD_POST)) {
             $group->setGroupName((string)$request->get('groupName'));
             $group->setRoles((array)$request->get('roles'));
