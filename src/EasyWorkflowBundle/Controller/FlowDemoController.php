@@ -43,6 +43,8 @@ class FlowDemoController extends Controller implements FlowInterface
      */
     public function getNextHandler(Request $request)
     {
+        $nodeId = 1;
+        return $this->getDoctrine()->getRepository('EasyWorkflowBundle:FlowNodes')->findWithHandlers($nodeId);
         return array(
             'nextNodeId'   => '1',
             'nextNodeName' => '下一节点名称',

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="flow_nodes")
  * @ORM\Entity(repositoryClass="EasyWorkflowBundle\Repository\FlowNodesRepository")
  */
-class FlowNode
+class FlowNodes
 {
     /**
      * @var int
@@ -101,7 +101,7 @@ class FlowNode
      *
      * @param string $name
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setName($name)
     {
@@ -125,7 +125,7 @@ class FlowNode
      *
      * @param string $route
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setRoute($route)
     {
@@ -149,7 +149,7 @@ class FlowNode
      *
      * @param string $description
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setDescription($description)
     {
@@ -173,7 +173,7 @@ class FlowNode
      *
      * @param \DateTime $createAt
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setCreateAt($createAt)
     {
@@ -197,7 +197,7 @@ class FlowNode
      *
      * @param \DateTime $updateAt
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setUpdateAt($updateAt)
     {

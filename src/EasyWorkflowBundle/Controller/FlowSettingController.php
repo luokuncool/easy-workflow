@@ -4,7 +4,7 @@ namespace EasyWorkflowBundle\Controller;
 
 use DateTime;
 use EasyWorkflowBundle\Controller\Interfaces\FlowInterface;
-use EasyWorkflowBundle\Entity\FlowNode;
+use EasyWorkflowBundle\Entity\FlowNodes;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -43,7 +43,7 @@ class FlowSettingController extends Controller
         $bind['flow']      = $this->getFlows($flowCode);
         $bind['flowNodes'] = $this
             ->getDoctrine()
-            ->getRepository('EasyWorkflowBundle:FlowNode')
+            ->getRepository('EasyWorkflowBundle:FlowNodes')
             ->findBy(array('flowCode' => $flowCode));
         return $bind;
     }
@@ -62,7 +62,7 @@ class FlowSettingController extends Controller
     public function createNodeAction($flowCode, Request $request)
     {
         if ($request->isMethod(Request::METHOD_POST)) {
-            $flowNode = new FlowNode();
+            $flowNode = new FlowNodes();
             $flowNode->setFlowCode($flowCode);
             $flowNode->setRoute($request->get('route'));
             $flowNode->setName($request->get('name'));
@@ -93,16 +93,18 @@ class FlowSettingController extends Controller
      * @author Quentin
      * @since  2016年08月25日
      *
-     * @param FlowNode $flowNode
-     * @param Request  $request
+     * @param FlowNodes $flowNode
+     * @param Request   $request
      * @Template()
      * @Route("/{id}/edit")
      *
      * @return array
      */
-    public function editNodeAction(FlowNode $flowNode, Request $request)
+    public function editNodeAction(FlowNodes $flowNode, Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
+        $res = $em->getRepository('EasyWorkflowBundle:Group')->getHandlersBy(1);
+        dump($res);
         if ($request->isMethod(Request::METHOD_POST)) {
             $flowNode->setRoute($request->get('route'));
             $flowNode->setName($request->get('name'));
