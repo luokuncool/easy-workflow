@@ -18,7 +18,7 @@ class FlowNodesRepository extends EntityRepository
         /** @var FlowNodes $flowNode */
         $flowNode = $this->find($id);
         $em       = $this->getEntityManager();
-        $em->getRepository('EasyWorkflowBundle:Group')->getHandlersBy($flowNode->getGroups());
+        $flowNode->nextHandlers = $em->getRepository('EasyWorkflowBundle:Group')->getHandlersBy($flowNode->getGroups());
         return $flowNode;
     }
 }

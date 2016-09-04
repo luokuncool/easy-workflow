@@ -4,6 +4,7 @@ namespace EasyWorkflowBundle\EventListener;
 
 
 use EasyWorkflowBundle\Controller\Interfaces\FlowInterface;
+use EasyWorkflowBundle\Entity\Flow;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,6 +26,7 @@ class FlowControllerListener
     public function onKernelController(FilterControllerEvent $event)
     {
         $controller = $event->getController();
+        $request = $event->getRequest();
 
         if (!is_array($controller)) {
             return;
@@ -35,7 +37,18 @@ class FlowControllerListener
             $this->nextHandlerFilter($event, $controller[0]);
             /*$this->container->get('doctrine.dbal.default_connection')->beginTransaction();
             $this->container->get('doctrine.dbal.default_connection')->insert('test.tmp', array('val' => rand(1111, 9999)));*/
+            $nextNode = $controller[0]->getNextHandler($request);
+            $flow = new Flow();
+            dump($request->get('nextHandlerId'));
+            $flow->setCurrentHandlerId($request->get('nextHandlerId'));
+            $flow->setCreateAt(new \DateTime());
+            $flow->setUpdateAt(new \DateTime());
+            $flow->setFlowCode($controller[0]->getFlowCode());
+            $flow->setCurrentNodeId($nextNode->getId());
+            $controller[0]->setFlowContext('flow', $flow);
+
         }
+        return $controller;
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
@@ -58,10 +71,10 @@ class FlowControllerListener
         if (preg_match('#::getNextHandler$#', $event->getRequest()->get('_controller'))) {
             $event->setController(
                 function () use ($controller, $event) {
-                    $nextHandlers = $controller->getNextHandler($event->getRequest());
+                    $nextNode = $controller->getNextHandler($event->getRequest());
                     $content      = $this->container
                         ->get('twig')
-                        ->render('@EasyWorkflow/_next_handlers.html.twig', $nextHandlers);
+                        ->render('@EasyWorkflow/_next_handlers.html.twig', array('nextNode' => $nextNode));
                     return new Response($content);
                 }
             );

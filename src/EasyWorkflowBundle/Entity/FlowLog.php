@@ -7,7 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FlowLog
  *
- * @ORM\Table(name="flow_logs")
+ * @ORM\Table(
+ *   name="flow_logs",
+ *   indexes={
+ *     @ORM\Index(name="flow_id", columns={"flow_id"}),
+ *     @ORM\Index(name="node_id", columns={"node_id"}),
+ *     @ORM\Index(name="handler_id", columns={"handler_id"})
+ *   }
+ * )
  * @ORM\Entity(repositoryClass="EasyWorkflowBundle\Repository\FlowLogRepository")
  */
 class FlowLog

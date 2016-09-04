@@ -103,8 +103,6 @@ class FlowSettingController extends Controller
     public function editNodeAction(FlowNodes $flowNode, Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $res = $em->getRepository('EasyWorkflowBundle:Group')->getHandlersBy(1);
-        dump($res);
         if ($request->isMethod(Request::METHOD_POST)) {
             $flowNode->setRoute($request->get('route'));
             $flowNode->setName($request->get('name'));

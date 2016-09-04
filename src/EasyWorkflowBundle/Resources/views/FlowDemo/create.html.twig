@@ -18,10 +18,10 @@
                     <div class="bootstrap-admin-panel-content text-muted" style="padding: 60px 0;">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-                                <form>
+                                <form method="post" action="{{ path('easyworkflow_flowdemo_create') }}">
                                     <div class="form-group">
-                                        <label for="leaveType"><span class="text-danger">*</span> 请假类型</label>
-                                        <select class="form-control" name="leaveType" id="leaveType">
+                                        <label for="type"><span class="text-danger">*</span> 请假类型</label>
+                                        <select class="form-control" name="type" id="type">
                                             <option value="">--请选择--</option>
                                             <option value="1">事假</option>
                                             <option value="2">病假</option>
@@ -30,12 +30,12 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 form-group">
-                                            <label for="startTime" class="control-label"><span
+                                            <label for="startAt" class="control-label"><span
                                                         class="text-danger">*</span> 开始时间</label>
                                             <div class="input-group date form_datetime"
                                                  data-date="{{ 'now'|date('Y-m-d H:i:00') }}"
-                                                 data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="startTime">
-                                                <input class="form-control" type="text" name="startTime"
+                                                 data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="startAt">
+                                                <input class="form-control" type="text" name="startAt"
                                                        value="{{ 'now'|date('Y-m-d H:i:s') }}"/>
                                                 <span class="input-group-addon"><span
                                                             class="glyphicon glyphicon-remove"></span></span>
@@ -48,8 +48,8 @@
                                                         class="text-danger">*</span> 结束时间</label>
                                             <div class="input-group date form_datetime"
                                                  data-date="{{ 'now'|date('Y-m-d H:i:00') }}"
-                                                 data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="endTime">
-                                                <input class="form-control" type="text" name="endTime"
+                                                 data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="endAt">
+                                                <input class="form-control" type="text" name="endAt"
                                                        value="{{ 'now'|date('Y-m-d H:i:s') }}"/>
                                                 <span class="input-group-addon"><span
                                                             class="glyphicon glyphicon-remove"></span></span>
@@ -59,8 +59,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="nextHandlerName"><span class="text-danger">*</span> 请假事由</label>
-                                        <textarea name="leaveReason" id="leaveReason" cols="30" rows="8"
+                                        <label for="reason"><span class="text-danger">*</span> 请假事由</label>
+                                        <textarea name="reason" id="reason" cols="30" rows="8"
                                                   class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
@@ -73,10 +73,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <select class="form-control" name="nextHandler" id="nextHandler" size="10">
-                                            <option value="2">abc</option>
-                                            <option value="2">cbd</option>
-                                        </select>
+                                        {% include '@EasyWorkflow/_next_handlers.html.twig' %}
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-sm"><i
                                                 class="glyphicon glyphicon-hand-up"></i> 确定提交
@@ -108,7 +105,7 @@
         forceParse: 0,
         showMeridian: 1
     });
-    $.get('{{ path('easyworkflow_flowdemo_getnexthandler') }}', function(res) {
+    $.get('{{ path('easyworkflow_flowdemo_getnexthandler', query) }}', function(res) {
         console('log');
     })
     </script>
