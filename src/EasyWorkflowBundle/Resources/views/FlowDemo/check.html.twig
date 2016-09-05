@@ -1,10 +1,120 @@
 {% extends '@EasyWorkflow/base.html.twig' %}
-
 {% block content %}
-
+    <!-- content -->
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>流程审批</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="text-muted bootstrap-admin-box-title">发起请假</div>
+                    </div>
+                    <div class="bootstrap-admin-panel-content text-muted" style="padding: 60px 0;">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <form method="post" action="{{ path('easyworkflow_flowdemo_create') }}">
+                                    <div class="form-group">
+                                        <label for="type"><span class="text-danger">*</span> 请假类型</label>
+                                        <select class="form-control" name="type" id="type">
+                                            <option value="">--请选择--</option>
+                                            <option value="1">事假</option>
+                                            <option value="2">病假</option>
+                                            <option value="3">年假</option>
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <label for="startAt" class="control-label"><span
+                                                        class="text-danger">*</span> 开始时间</label>
+                                            <div class="input-group date form_datetime"
+                                                 data-date="{{ 'now'|date('Y-m-d H:i:00') }}"
+                                                 data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="startAt">
+                                                <input class="form-control" type="text" name="startAt"
+                                                       value="{{ 'now'|date('Y-m-d H:i:s') }}"/>
+                                                <span class="input-group-addon"><span
+                                                            class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span
+                                                            class="glyphicon glyphicon-th"></span></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for="endTime" class="control-label"><span
+                                                        class="text-danger">*</span> 结束时间</label>
+                                            <div class="input-group date form_datetime"
+                                                 data-date="{{ 'now'|date('Y-m-d H:i:00') }}"
+                                                 data-date-format="yyyy-mm-dd hh:ii:00" data-link-field="endAt">
+                                                <input class="form-control" type="text" name="endAt"
+                                                       value="{{ 'now'|date('Y-m-d H:i:s') }}"/>
+                                                <span class="input-group-addon"><span
+                                                            class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span
+                                                            class="glyphicon glyphicon-th"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reason"><span class="text-danger">*</span> 请假事由</label>
+                                        <textarea name="reason" id="reason" cols="30" rows="8"
+                                                  class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nextHandlerName"><span class="text-danger">*</span> 下一处理人</label>
+                                        <div class="input-group" data-link-field="nextHandlerName">
+                                            <input type="text" class="form-control" id="nextHandlerName"
+                                                   placeholder="下一处理人">
+                                            <span class="input-group-addon"><span
+                                                        class="glyphicon glyphicon-search"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {% include '@EasyWorkflow/_next_handlers.html.twig' %}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm"><i
+                                                class="glyphicon glyphicon-hand-up"></i> 确定提交
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts filter="?uglifyjs"
+    "bundles/easyworkflow/js/bootstrap-datetimepicker.min.js"
+    "bundles/easyworkflow/js/locales/bootstrap-datetimepicker.zh-CN.js" %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $.get('{{ path('easyworkflow_flowdemo_getnexthandler', query) }}', function(res) {
+        console('log');
+    })
+    </script>
+{% endblock %}
 {% block stylesheets %}
-
+    {{ parent() }}
+    {% stylesheets
+    "bundles/easyworkflow/css/bootstrap-datetimepicker.min.css" %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
 {% endblock %}
 

@@ -84,6 +84,12 @@ class FlowLog
      */
     private $serializeInfo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="EasyWorkflowBundle\Entity\Flow", inversedBy="flowLogs", cascade={"persist"})
+     * @ORM\JoinColumn(name="flow_id", referencedColumnName="id")
+     */
+    private $flow;
+
 
     /**
      * Get id
@@ -285,6 +291,23 @@ class FlowLog
     public function getSerializeInfo()
     {
         return $this->serializeInfo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFlow()
+    {
+        return $this->flow;
+    }
+
+    /**
+     * @param mixed $flow
+     */
+    public function setFlow($flow)
+    {
+        $this->flow = $flow;
+        return $this;
     }
 }
 

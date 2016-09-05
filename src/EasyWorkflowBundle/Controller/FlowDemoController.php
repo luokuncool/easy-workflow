@@ -4,6 +4,7 @@ namespace EasyWorkflowBundle\Controller;
 
 use DateTime;
 use EasyWorkflowBundle\Controller\Interfaces\FlowInterface;
+use EasyWorkflowBundle\Entity\Flow;
 use EasyWorkflowBundle\Entity\LeaveFlow;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -83,22 +84,32 @@ class FlowDemoController extends Controller implements FlowInterface
                 ->setFlow($this->getFlowContext('flow'));
             $em->persist($leaveFlow);
             $em->flush();
-            dump($leaveFlow);
         }
         $nextNode = $this->getNextHandler($request);
         return $this->render('@EasyWorkflow/FlowDemo/create.html.twig', ['nextNode' => $nextNode, 'query' => ['flowId' => 8]]);
     }
 
     /**
-     * @param Request $request
+     * @param LeaveFlow $leaveFlow
+     * @param Request   $request
+     *
+     * @return array
      * @Route("/{flowId}/check/")
      * @Template()
      *
-     * @return array
      */
-    public function checkAction(Request $request)
+    public function checkAction(LeaveFlow $leaveFlow, Request $request)
     {
-        return array();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $leaveFlow
+                ->setUpdateAt(new DateTime());
+            $em->persist($leaveFlow);
+            $em->flush();
+        }
+        $nextNode = $this->getNextHandler($request);
+        return ['nextNode' => $nextNode, 'query' => ['flowId' => 8]];
     }
 
     /**

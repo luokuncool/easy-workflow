@@ -2,6 +2,7 @@
 
 namespace EasyWorkflowBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +56,15 @@ class Flow
      * @ORM\Column(name="update_at", type="datetime")
      */
     private $updateAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EasyWorkflowBundle\Entity\FlowLog", mappedBy="flow", cascade={"persist"})
+     */
+    private $flowLogs;
+
+    public function __construct() {
+        $this->flowLogs = new ArrayCollection();
+    }
 
 
     /**
@@ -177,6 +187,19 @@ class Flow
     public function setCurrentNodeId($currentNodeId)
     {
         $this->currentNodeId = $currentNodeId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFlowLogs()
+    {
+        return $this->flowLogs;
+    }
+
+    public function addFlowLog($flowLog)
+    {
+        $this->flowLogs[] = $flowLog;
     }
 }
 
