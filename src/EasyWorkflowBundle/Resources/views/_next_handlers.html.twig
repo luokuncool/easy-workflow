@@ -1,6 +1,8 @@
-<select class="form-control" name="nextHandlerId" id="nextHandlerId" size="10">
+<select class="form-control" name="easyWorkflow[nextHandlerId]" size="10">
     {% for nextHandler in nextNode.nextHandlers %}
         <option value="{{ nextHandler.id }}">{{ nextHandler.username }}</option>
     {% endfor %}
 </select>
-{{ nextNode.name }}
+{% if easyWorkflow is defined %}
+    <input type="hidden" name="easyWorkflow[id]" value="{{ easyWorkflow.id }}"/>
+{% endif %}

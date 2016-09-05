@@ -48,7 +48,8 @@ class FlowDemoController extends Controller implements FlowInterface
      */
     public function getNextHandler(Request $request)
     {
-        $flowId = (int)$request->get('flowId');
+        $easyWorkflow = $request->get('easyWorkflow');
+        $flowId = (int)$easyWorkflow['id'];
         if ($flowId == 0) {
             $nodeId = 2;
         } else {
@@ -62,15 +63,16 @@ class FlowDemoController extends Controller implements FlowInterface
      * @author luokuncool
      * @since  2016年05月18日
      * @Route("/create")
+     * @Template()
      *
      * @param Request $request
      *
-     * @return Response
+     * @return array
      */
     public function createAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
+        $em   = $this->getDoctrine()->getManager();
         if ($request->isMethod(Request::METHOD_POST)) {
             $leaveFlow = new LeaveFlow();
             $leaveFlow
@@ -86,7 +88,7 @@ class FlowDemoController extends Controller implements FlowInterface
             $em->flush();
         }
         $nextNode = $this->getNextHandler($request);
-        return $this->render('@EasyWorkflow/FlowDemo/create.html.twig', ['nextNode' => $nextNode, 'query' => ['flowId' => 8]]);
+        return ['nextNode' => $nextNode, 'query' => ['flowId' => 8]];
     }
 
     /**
@@ -94,22 +96,20 @@ class FlowDemoController extends Controller implements FlowInterface
      * @param Request   $request
      *
      * @return array
-     * @Route("/{flowId}/check/")
+     * @Route("/{id}/check/")
      * @Template()
      *
      */
     public function checkAction(LeaveFlow $leaveFlow, Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         if ($request->isMethod(Request::METHOD_POST)) {
-            $leaveFlow
-                ->setUpdateAt(new DateTime());
+            $leaveFlow->setUpdateAt(new DateTime());
             $em->persist($leaveFlow);
             $em->flush();
         }
         $nextNode = $this->getNextHandler($request);
-        return ['nextNode' => $nextNode, 'query' => ['flowId' => 8]];
+        return ['nextNode' => $nextNode, 'leaveFlow' => $leaveFlow, 'easyWorkflow' => $leaveFlow->getFlow()];
     }
 
     /**
