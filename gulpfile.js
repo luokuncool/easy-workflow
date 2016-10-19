@@ -1,9 +1,11 @@
-var gulp        = require('gulp');
-var browserSync = require('browser-sync').create();
+'use strict';
 
-gulp.task('browser-sync', function() {
-    browserSync.init({
+var gulp        = require('gulp'),
+    browserSync = require('browser-sync');
+
+gulp.task('browser-sync', function () {
+    browserSync({
         proxy: "easy-workflow.dev",
-        files : ["src/**/*.css", "src/**/*.scss"]
+        files: ["{src,web}/**/*.{css,scss,js,twig}"]
     });
 });
