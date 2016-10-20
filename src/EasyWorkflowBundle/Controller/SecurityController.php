@@ -25,6 +25,9 @@ class SecurityController extends Controller
      */
     public function loginAction()
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('easyworkflow_default_index');
+        }
         $helper = $this->get('security.authentication_utils');
         return $this->render(
             '@EasyWorkflow/Security/login.html.twig',
