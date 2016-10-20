@@ -6,6 +6,6 @@ var gulp        = require('gulp'),
 gulp.task('browser-sync', function () {
     browserSync({
         proxy: "easy-workflow.dev",
-        files: ["{src,web}/**/*.{css,scss,js,twig}"]
+        files: ["{src,web}/**/*.{css,js,twig}"]
     });
 });
