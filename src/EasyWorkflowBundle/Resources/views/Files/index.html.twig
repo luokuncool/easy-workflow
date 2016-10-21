@@ -23,6 +23,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
+                                    <th>＃</th>
                                     <th>文件名称</th>
                                     <th>mimeType</th>
                                     <th>大小</th>
@@ -38,6 +39,9 @@
                                 <tbody>
                                 {% for file in files %}
                                     <tr>
+                                        <td>
+                                            <input type="checkbox" value="ids[]"/>
+                                        </td>
                                         <td><a href="{{ path('easyworkflow_files_read', {id : file.file['_id']}) }}"
                                                target="_blank">{{ file.file['filename'] }}</a></td>
                                         <td>{{ file.file['mimeType'] }}</td>
@@ -53,6 +57,20 @@
                                     </tr>
                                 {% endfor %}
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <a href="javascript:;"
+                                           class="btn btn-primary btn-sm"> 全选
+                                        </a>
+                                        <a href="{{ path('easyworkflow_files_delete', {id : '{ids}'}) }}"
+                                           data-toggle="confirmation" data-title="确定要删除勾选的数据？"
+                                           class="btn btn-danger btn-sm">
+                                            <i class="glyphicon glyphicon-trash"></i> 删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="col-lg-12">{{ pageView|raw }}</div>
