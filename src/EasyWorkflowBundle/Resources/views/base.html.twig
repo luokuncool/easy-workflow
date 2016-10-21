@@ -135,7 +135,7 @@
                 <li>
                     <a href="#"><i class="glyphicon glyphicon-chevron-right"></i> 订单管理</a>
                 </li>
-                <li {% if path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) in [path('easyworkflow_files_index'),path('easyworkflow_files_uploadview')] %}class="active"{% endif %}>
+                <li {% if app.request.attributes.get('_route') in ["easyworkflow_files_uploadview", "easyworkflow_files_index"] %}class="active"{% endif %}>
                     <a href="{{ path('easyworkflow_files_index') }}"><i class="glyphicon glyphicon-chevron-right"></i>
                         文件管理</a>
                 </li>
