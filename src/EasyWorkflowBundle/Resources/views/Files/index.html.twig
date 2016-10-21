@@ -56,6 +56,13 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
+                                {% if not files %}
+                                    <tr>
+                                        <td align="center" colspan="6">
+                                            还木有上传任何文件, 赶快点击右上角的上传按钮，速速上传吧~
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 </tbody>
                                 <tfoot>
                                 <tr>
