@@ -7,7 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FlowLog
  *
- * @ORM\Table(name="flow_logs")
+ * @ORM\Table(
+ *   name="flow_logs",
+ *   indexes={
+ *     @ORM\Index(name="flow_id", columns={"flow_id"}),
+ *     @ORM\Index(name="node_id", columns={"node_id"}),
+ *     @ORM\Index(name="handler_id", columns={"handler_id"})
+ *   }
+ * )
  * @ORM\Entity(repositoryClass="EasyWorkflowBundle\Repository\FlowLogRepository")
  */
 class FlowLog
@@ -76,6 +83,12 @@ class FlowLog
      * @ORM\Column(name="serialize_info", type="array")
      */
     private $serializeInfo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EasyWorkflowBundle\Entity\Flow", inversedBy="flowLogs", cascade={"persist"})
+     * @ORM\JoinColumn(name="flow_id", referencedColumnName="id")
+     */
+    private $flow;
 
 
     /**
@@ -278,6 +291,23 @@ class FlowLog
     public function getSerializeInfo()
     {
         return $this->serializeInfo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFlow()
+    {
+        return $this->flow;
+    }
+
+    /**
+     * @param mixed $flow
+     */
+    public function setFlow($flow)
+    {
+        $this->flow = $flow;
+        return $this;
     }
 }
 

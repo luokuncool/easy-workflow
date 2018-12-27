@@ -8,7 +8,10 @@
 
 namespace EasyWorkflowBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Serializable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -50,11 +53,18 @@ class User implements UserInterface, Serializable
      */
     private $isActive;
 
+    /**
+     * @ManyToMany(targetEntity="Group", inversedBy="users")
+     * @JoinTable(name="users_groups")
+     */
+    private $groups;
+
     public function __construct()
     {
         $this->isActive = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
+        $this->groups = new ArrayCollection();
     }
 
     public function getUsername()

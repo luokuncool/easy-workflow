@@ -52,7 +52,7 @@ body.bootstrap-admin-with-small-navbar{
     line-height: 25px;
 }
 .form-group input[type="checkbox"]{
-    margin-top: 9px;
+    margin-top: 6px;
 }
 
 /** Title of container for lists, some content etc. **/

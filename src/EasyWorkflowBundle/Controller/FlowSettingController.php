@@ -4,7 +4,7 @@ namespace EasyWorkflowBundle\Controller;
 
 use DateTime;
 use EasyWorkflowBundle\Controller\Interfaces\FlowInterface;
-use EasyWorkflowBundle\Entity\FlowNode;
+use EasyWorkflowBundle\Entity\FlowNodes;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -27,6 +27,7 @@ class FlowSettingController extends Controller
         $flows = $this->getFlows();
         return array('flows' => $flows);
     }
+
     /**
      * @author luokuncool
      * @since  2016年08月25日
@@ -42,7 +43,7 @@ class FlowSettingController extends Controller
         $bind['flow']      = $this->getFlows($flowCode);
         $bind['flowNodes'] = $this
             ->getDoctrine()
-            ->getRepository('EasyWorkflowBundle:FlowNode')
+            ->getRepository('EasyWorkflowBundle:FlowNodes')
             ->findBy(array('flowCode' => $flowCode));
         return $bind;
     }
@@ -61,7 +62,7 @@ class FlowSettingController extends Controller
     public function createNodeAction($flowCode, Request $request)
     {
         if ($request->isMethod(Request::METHOD_POST)) {
-            $flowNode = new FlowNode();
+            $flowNode = new FlowNodes();
             $flowNode->setFlowCode($flowCode);
             $flowNode->setRoute($request->get('route'));
             $flowNode->setName($request->get('name'));
@@ -92,14 +93,14 @@ class FlowSettingController extends Controller
      * @author Quentin
      * @since  2016年08月25日
      *
-     * @param FlowNode $flowNode
-     * @param Request  $request
+     * @param FlowNodes $flowNode
+     * @param Request   $request
      * @Template()
      * @Route("/{id}/edit")
      *
      * @return array
      */
-    public function editNodeAction(FlowNode $flowNode, Request $request)
+    public function editNodeAction(FlowNodes $flowNode, Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
         if ($request->isMethod(Request::METHOD_POST)) {
@@ -107,6 +108,11 @@ class FlowSettingController extends Controller
             $flowNode->setName($request->get('name'));
             $flowNode->setDescription($request->get('description'));
             $flowNode->setUpdateAt(new DateTime());
+            $groups = $this->getDoctrine()
+                ->getRepository('EasyWorkflowBundle:Group')
+                ->findByIds((array)$request->get('groups'));
+            $flowNode->getGroups()->clear();
+            $flowNode->addGroup($groups);
             $validator = $this->get('validator');
             $errors    = $validator->validate($flowNode);
             if ($errors->count()) {
@@ -122,9 +128,10 @@ class FlowSettingController extends Controller
             $flowNode = $flushFlowNode[0];
         }
 
+        $groups   = $this->getDoctrine()->getRepository('EasyWorkflowBundle:Group')->findAll();
         $flowCode = $flowNode->getFlowCode();
-        $flow = $this->getFlows($flowCode);
-        return array('flowNode' => $flowNode, 'flowCode' => $flowCode, 'flow' => $flow);
+        $flow     = $this->getFlows($flowCode);
+        return array('flowNode' => $flowNode, 'flowCode' => $flowCode, 'flow' => $flow, 'groups' => $groups);
     }
 
     private function getFlows($flowCode = '')

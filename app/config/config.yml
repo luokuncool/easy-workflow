@@ -37,7 +37,7 @@ assetic:
     use_controller: false
     bundles:        [ "EasyWorkflowBundle" ]
     #java: /usr/bin/java
-    node: "%node_bin%"
+    node: ~
     filters:
         cssrewrite: ~
         uglifyjs:
@@ -110,3 +110,13 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
+liip_imagine:
+    resolvers:
+        default:
+            web_path: ~
+    filter_sets:
+        cache: ~
+        my_thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [120, 90], mode: outbound }

@@ -31,12 +31,12 @@
         "doctrine/doctrine-fixtures-bundle": "^2.3",
         "leafo/lessphp": "^0.5.0",
         "leafo/scssphp": "^0.6.3",
-        "rock/phpwsdl": "^1.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "doctrine/mongodb-odm": "^1.1",
         "doctrine/mongodb-odm-bundle": "^3.2",
         "knplabs/knp-paginator-bundle": "^2.5",
-        "pagerfanta/pagerfanta": "^1.0"
+        "pagerfanta/pagerfanta": "^1.0",
+        "liip/imagine-bundle": "^1.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

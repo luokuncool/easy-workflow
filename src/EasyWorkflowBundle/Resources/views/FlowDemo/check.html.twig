@@ -1,4 +1,4 @@
-{% extends "@EasyWorkflow/base.html.twig" %}
+{% extends '@EasyWorkflow/base.html.twig' %}
 {% block content %}
     <!-- content -->
     <div class="col-md-10">
@@ -18,7 +18,8 @@
                     <div class="bootstrap-admin-panel-content text-muted" style="padding: 60px 0;">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-                                <form method="post" action="{{ path('easyworkflow_flowdemo_create') }}">
+                                <form method="post"
+                                      action="{{ path('easyworkflow_flowdemo_check', {id:leaveFlow.id}) }}">
                                     <div class="form-group">
                                         <label for="type"><span class="text-danger">*</span> 请假类型</label>
                                         <select class="form-control" name="type" id="type">
@@ -105,8 +106,8 @@
         forceParse: 0,
         showMeridian: 1
     });
-    $.get('{{ path('easyworkflow_flowdemo_getnexthandler', query) }}', function(res) {
-        console('log');
+    $.get('{{ path('easyworkflow_flowdemo_getnexthandler', {flowId:easyWorkflow.id}) }}', function (res) {
+        console.log(res);
     })
     </script>
 {% endblock %}

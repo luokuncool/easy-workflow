@@ -26,4 +26,8 @@ interface FlowInterface
      * @return array
      */
     public function getNextHandler(Request $request);
+
+    public function setFlowContext($key, $val);
+
+    public function getFlowContext($key = '');
 }

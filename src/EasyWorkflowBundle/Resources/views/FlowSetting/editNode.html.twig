@@ -43,26 +43,18 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>路由</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for route in flow.routes %}
-                                                <tr>
-                                                    <th scope="row">#</th>
-                                                    <td>{{ route }}</td>
-                                                </tr>
+                                        <label for="route"><span class="text-danger">*</span> 处理群组</label>
+                                        <div class="input-group">
+                                            {% for group in groups %}
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="groups[]" value="{{ group.id }}" {% if flowNode and group in flowNode.groups %}checked{% endif %}> {{ group.groupName }}
+                                                </label>
                                             {% endfor %}
-                                            </tbody>
-                                        </table>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">备注</label>
-                                        <textarea name="description" id="description" cols="30" rows="8"
+                                        <textarea name="description" id="description" cols="30" rows="3"
                                                   class="form-control">{{ flowNode.description }}</textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-sm"><i

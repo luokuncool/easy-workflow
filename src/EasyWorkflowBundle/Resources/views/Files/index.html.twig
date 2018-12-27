@@ -23,6 +23,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>文件名称</th>
                                     <th>mimeType</th>
                                     <th>大小</th>
@@ -38,11 +39,14 @@
                                 <tbody>
                                 {% for file in files %}
                                     <tr>
+                                        <td align="center">
+                                            <input type="checkbox" value="ids[]"/>
+                                        </td>
                                         <td><a href="{{ path('easyworkflow_files_read', {id : file.file['_id']}) }}"
                                                target="_blank">{{ file.file['filename'] }}</a></td>
                                         <td>{{ file.file['mimeType'] }}</td>
                                         <td>{{ file.file['size'] }}</td>
-                                        <th>{{ file.file['uploadDate'].sec|date('Y-m-d H:i:s') }}</th>
+                                        <td>{{ file.file['uploadDate'].sec|date('Y-m-d H:i:s') }}</td>
                                         <td>
                                             <a href="{{ path('easyworkflow_files_delete', {id : file.file['_id']}) }}"
                                                data-toggle="confirmation" data-title="确定要删除该条数据？"
@@ -52,10 +56,33 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
+                                {% if not files %}
+                                    <tr>
+                                        <td align="center" colspan="6">
+                                            还木有上传任何文件, 赶快点击右上角的上传按钮，速速上传吧~
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="pull-left">
+                                            <a href="javascript:;"
+                                               class="btn btn-primary btn-sm"> 全选
+                                            </a>
+                                            <a href="{{ path('easyworkflow_files_delete', {id : '{ids}'}) }}"
+                                               data-toggle="confirmation" data-title="确定要删除勾选的数据？"
+                                               class="btn btn-danger btn-sm">
+                                                <i class="glyphicon glyphicon-trash"></i> 删除
+                                            </a>
+                                        </div>
+                                        <div class="pull-right paginate-nomargin">{{ pageView|raw }}</div>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
-                        <div class="col-lg-12">{{ pageView|raw }}</div>
                     </div>
                 </div>
             </div>

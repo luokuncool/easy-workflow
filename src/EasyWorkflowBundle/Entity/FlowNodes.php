@@ -2,7 +2,9 @@
 
 namespace EasyWorkflowBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="flow_nodes")
  * @ORM\Entity(repositoryClass="EasyWorkflowBundle\Repository\FlowNodesRepository")
  */
-class FlowNode
+class FlowNodes
 {
     /**
      * @var int
@@ -47,6 +49,17 @@ class FlowNode
      */
     private $route;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EasyWorkflowBundle\Entity\Group")
+     * @JoinTable(
+     *   name="flow_nodes_groups",
+     *   joinColumns={@ORM\JoinColumn(name="flow_node_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    private $groups;
+
     /**
      * @var string
      *
@@ -68,6 +81,10 @@ class FlowNode
      */
     private $updateAt;
 
+    public function __construct()
+    {
+        $this->groups = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -84,7 +101,7 @@ class FlowNode
      *
      * @param string $name
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setName($name)
     {
@@ -108,7 +125,7 @@ class FlowNode
      *
      * @param string $route
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setRoute($route)
     {
@@ -132,7 +149,7 @@ class FlowNode
      *
      * @param string $description
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setDescription($description)
     {
@@ -156,7 +173,7 @@ class FlowNode
      *
      * @param \DateTime $createAt
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setCreateAt($createAt)
     {
@@ -180,7 +197,7 @@ class FlowNode
      *
      * @param \DateTime $updateAt
      *
-     * @return FlowNode
+     * @return FlowNodes
      */
     public function setUpdateAt($updateAt)
     {
@@ -213,6 +230,21 @@ class FlowNode
     public function setFlowCode($flowCode)
     {
         $this->flowCode = $flowCode;
+    }
+
+    public function addGroup($groups)
+    {
+        if ($groups instanceof Group) {
+            $groups = [$groups];
+        }
+        foreach ($groups as $group) {
+            $this->groups->add($group);
+        }
+    }
+
+    public function getGroups()
+    {
+        return $this->groups;
     }
 }
 

@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupRepository extends EntityRepository
 {
+    public function findByIds($groupIds)
+    {
+        return $this->createQueryBuilder('group_repository')
+            ->where('group_repository.id in(:groupIds)')
+            ->setParameter('groupIds', $groupIds)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getHandlersBy($groups)
+    {
+        return $this->createQueryBuilder('group_repository')
+            ->innerJoin('group_repository.users', 'users')
+            ->select('users.id,users.username')
+            ->getQuery()
+            ->getResult();
+    }
 }
